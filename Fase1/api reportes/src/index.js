@@ -3,6 +3,8 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const socketIO = require('socket.io')
+const { mongoose } = require('./database')
+const prueba = require('./models/prueba')
 
 // settings
 app.set('port', process.env.PORT || 5000)
@@ -24,6 +26,7 @@ const io = socketIO(server, {
 })
 
 // web sockets
-io.on('connection', (socket) => {
+io.on('connection', async (socket) => {
     console.log(`Nueva conexion con ${socket.id}`)
+   
 })

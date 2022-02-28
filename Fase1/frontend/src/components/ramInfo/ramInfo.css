@@ -1,0 +1,102 @@
+.ram{
+    width: 80%;
+    height: 20%;
+    position: relative;
+    left: 10%;
+}
+
+#contenedor1{
+    width: 20%;
+    height: 50%;
+    position: absolute;
+    top: 35%;
+    left: 5%;
+}
+
+#contenedor2{
+    width: 20%;
+    height: 50%;
+    position: absolute;
+    top: 35%;
+    left: 28%;
+}
+
+#contenedor3{
+    width: 20%;
+    height: 50%;
+    position: absolute;
+    top: 35%;
+    left: 52%;
+}
+
+#contenedor4{
+    width: 20%;
+    height: 50%;
+    position: absolute;
+    top: 35%;
+    left: 76%;
+}
+
+#contenedor1 .memoryText {
+    visibility: hidden;
+    width: 200px;
+    background-color: #6f42c1;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;  
+    position: absolute;
+    z-index: 2;
+}
+
+#contenedor1:hover .memoryText {
+    visibility: visible;
+}
+
+#contenedor2 .memoryText2 {
+    visibility: hidden;
+    width: 200px;
+    background-color: #6f42c1;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;  
+    position: absolute;
+    z-index: 2;
+}
+
+#contenedor2:hover .memoryText2 {
+    visibility: visible;
+}
+
+#contenedor3 .memoryText3 {
+    visibility: hidden;
+    width: 200px;
+    background-color: #6f42c1;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;  
+    position: absolute;
+    z-index: 2;
+}
+
+#contenedor3:hover .memoryText3 {
+    visibility: visible;
+}
+
+#contenedor4 .memoryText4 {
+    visibility: hidden;
+    width: 200px;
+    background-color: #6f42c1;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;  
+    position: absolute;
+    z-index: 2;
+}
+
+#contenedor4:hover .memoryText4 {
+    visibility: visible;
+}

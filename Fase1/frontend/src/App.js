@@ -1,18 +1,16 @@
 import './App.css';
-import io from 'socket.io-client'
-import { useEffect } from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+
+import Home from './pages/Home/Home'
 
 function App() {
-
-  const socket = io('http://localhost:5000')
-
-  useEffect(() => {
-
-  }, [])
-
   return (
     <div className="App">
-      
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home/>}/>
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
