@@ -1,5 +1,5 @@
 import React from "react";
-import './graphRam.css'
+import './GraphRam.css'
 import {
     Chart as ChartJS,
     CategoryScale,

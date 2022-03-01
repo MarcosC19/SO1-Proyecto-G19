@@ -1,8 +1,8 @@
 .grafica{
     width: 50%;
     height: 50%;
-    position: relative;
-    top: 30%;
+    position: fixed;
+    top: 40%;
     left: 25%;
     background-color: white;
     z-index: 1;

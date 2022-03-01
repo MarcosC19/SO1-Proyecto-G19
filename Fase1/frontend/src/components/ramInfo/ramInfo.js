@@ -1,5 +1,5 @@
 import React from "react";
-import './ramInfo.css'
+import './RamInfo.css'
 
 export default function RamInfo() {
     return (
