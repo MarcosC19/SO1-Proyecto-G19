@@ -11,9 +11,9 @@ MODULE_AUTHOR("Steven Jocol");
 MODULE_DESCRIPTION("Modulo que muestra los procesos del sistema/usuario");
 MODULE_VERSION("1.0");
 
-struct task_struct *task;        /*    Structure defined in sched.h for tasks/processes    */
-struct task_struct *task_child;        /*    Structure needed to iterate through task children    */
-struct list_head *list;            /*    Structure needed to iterate through the list in each task->children struct    */
+struct task_struct *task;
+struct task_struct *task_child;
+struct list_head *list;
 
 static int escribir_proc(struct seq_file *m, void *v){
 
@@ -28,13 +28,13 @@ static int escribir_proc(struct seq_file *m, void *v){
         }
         seq_printf(m, "\t\t\"pid\": %d,\n\t\t\"name\": \"%s\",\n\t\t\"ppid\": 0,\n\t\t\"state\": %ld,\n\t\t\"childs\": [",task->pid, task->comm, task->state);
         bool first = true;
-        list_for_each(list, &task->children){                        /*    list_for_each MACRO to iterate through task->children    */
-            task_child = list_entry( list, struct task_struct, sibling );    /*    using list_entry to declare all vars in task_child struct    */
+        list_for_each(list, &task->children){
+            task_child = list_entry( list, struct task_struct, sibling );
             if(first){
-                seq_printf(m,"\n\t\t\t{\n\t\t\t\t\"ppid\": %d,\n\t\t\t\t\"pid\": %d,\n\t\t\t\t\"name\": \"%s\",\n\t\t\t\t\"state\": %ld \n\t\t\t}",task->pid, /*    log child of and child pid/name/state    */
+                seq_printf(m,"\n\t\t\t{\n\t\t\t\t\"ppid\": %d,\n\t\t\t\t\"pid\": %d,\n\t\t\t\t\"name\": \"%s\",\n\t\t\t\t\"state\": %ld \n\t\t\t}",task->pid,
                 task_child->pid, task_child->comm, task_child->state);
             }else{
-                seq_printf(m,",\n\t\t\t{\n\t\t\t\t\"ppid\": %d,\n\t\t\t\t\"pid\": %d,\n\t\t\t\t\"name\": \"%s\",\n\t\t\t\t\"state\": %ld \n\t\t\t}",task->pid, /*    log child of and child pid/name/state    */
+                seq_printf(m,",\n\t\t\t{\n\t\t\t\t\"ppid\": %d,\n\t\t\t\t\"pid\": %d,\n\t\t\t\t\"name\": \"%s\",\n\t\t\t\t\"state\": %ld \n\t\t\t}",task->pid,
                 task_child->pid, task_child->comm, task_child->state);
             }
             first = false;
