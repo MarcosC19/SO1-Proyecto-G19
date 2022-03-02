@@ -6,7 +6,7 @@ La api esta contenida en una imagen de docker que puede ser levantada usando el 
 
 ### Puntos de entrada
 
-GET: /getCPUstatus
+GET: /getCPUstatus </br>
 Ejemplo de respuesta: 
 ~~~json
 [
@@ -35,7 +35,7 @@ state -> 2     = Uninterrumpible Sleeping </br>
 state -> 1026  = Idle </br>
 
 
-GET: /getRAMstatus
+GET: /getRAMstatus </br>
 Respuesta: 
 ~~~json
 {
