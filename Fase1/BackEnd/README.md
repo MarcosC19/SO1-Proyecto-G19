@@ -29,20 +29,20 @@ Ejemplo de respuesta:
 
 Donde los valores del estado pueden ser: 
 
-state -> 0     = Running
-state -> 1     = Interrumpible Sleeping
-state -> 2     = Uninterrumpible Sleeping
-state -> 1026  = Idle
+state -> 0     = Running </br>
+state -> 1     = Interrumpible Sleeping </br>
+state -> 2     = Uninterrumpible Sleeping </br>
+state -> 1026  = Idle </br>
 
 
 GET: /getRAMstatus
 Respuesta: 
 ~~~json
 {
-	"total" :    15848,
-	"used" :     8204,
-	"percentage" : 51,
-	"free" :     7640
+    "total"      :    15848,
+	"used"       :     8204,
+	"percentage" :       51,
+	"free"       :     7640
 }
 ~~~
 
