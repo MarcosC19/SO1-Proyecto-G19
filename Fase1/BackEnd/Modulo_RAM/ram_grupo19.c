@@ -230,9 +230,9 @@ static int escribir_proc(struct seq_file *m, void *v){
 
     seq_printf(m,"{\n");
     show_val_kb(m, "\t\"total\" : ", total_en_mb, true);
-    show_val_kb(m, "\n\t\"usada\" : ", usada_en_mb, true);
-    seq_printf(m, "\n\t\"porcentaje\" : %li,\n", porcentaje_en_uso);
-    show_val_kb(m, "\t\"libre\" : ", libre_en_mb, false);
+    show_val_kb(m, "\n\t\"used\" : ", usada_en_mb, true);
+    seq_printf(m, "\n\t\"percentage\" : %li,\n", porcentaje_en_uso);
+    show_val_kb(m, "\t\"free\" : ", libre_en_mb, false);
     seq_printf(m,"}\n");
     return 0;
 }
@@ -249,4 +249,4 @@ static void __exit memoryinfo_exit(void){
 }
 
 module_init(memoryinfo_init);
-module_exit(memoryinfo_exit); 
+module_exit(memoryinfo_exit);

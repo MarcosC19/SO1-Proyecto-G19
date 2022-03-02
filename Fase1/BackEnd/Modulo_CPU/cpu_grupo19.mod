@@ -1,2 +1,2 @@
-/home/stevengez/Documentos/GitHub/SOPES1/Proyecto1/Modulo_CPU/cpu_grupo19.o
+/home/stevengez/Documentos/GitHub/SO1-Proyecto-G19/Fase1/BackEnd/Modulo_CPU/cpu_grupo19.o
 

@@ -1,0 +1,10 @@
+services:
+  backend: 
+    image: stevengez/backendkernel:latest
+    container_name: backendKernel
+    ports:
+      - "80:5000"
+    volumes:
+      - /proc:/hostProc
+  
+  

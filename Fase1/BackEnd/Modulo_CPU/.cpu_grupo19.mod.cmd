@@ -1,1 +1,1 @@
-cmd_/home/stevengez/Documentos/GitHub/SOPES1/Proyecto1/Modulo_CPU/cpu_grupo19.mod := { echo  /home/stevengez/Documentos/GitHub/SOPES1/Proyecto1/Modulo_CPU/cpu_grupo19.o;  echo; } > /home/stevengez/Documentos/GitHub/SOPES1/Proyecto1/Modulo_CPU/cpu_grupo19.mod
+cmd_/home/stevengez/Documentos/GitHub/SO1-Proyecto-G19/Fase1/BackEnd/Modulo_CPU/cpu_grupo19.mod := { echo  /home/stevengez/Documentos/GitHub/SO1-Proyecto-G19/Fase1/BackEnd/Modulo_CPU/cpu_grupo19.o;  echo; } > /home/stevengez/Documentos/GitHub/SO1-Proyecto-G19/Fase1/BackEnd/Modulo_CPU/cpu_grupo19.mod

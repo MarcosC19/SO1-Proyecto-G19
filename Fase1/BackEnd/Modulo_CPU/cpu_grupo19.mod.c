@@ -29,12 +29,12 @@ __used __section("__versions") = {
 	{ 0xe72d1ecd, "remove_proc_entry" },
 	{ 0xc5850110, "printk" },
 	{ 0x69583438, "proc_create_single_data" },
-	{ 0xa681aaa8, "seq_printf" },
 	{ 0xd1ae6501, "init_task" },
+	{ 0xa681aaa8, "seq_printf" },
 	{ 0xbdfb6dbb, "__fentry__" },
 };
 
 MODULE_INFO(depends, "");
 
 
-MODULE_INFO(srcversion, "9DB6173D6BC86EEB4913137");
+MODULE_INFO(srcversion, "6226269B5BC2052B13D97D0");
