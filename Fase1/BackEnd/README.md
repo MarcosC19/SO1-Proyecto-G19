@@ -11,17 +11,17 @@ Ejemplo de respuesta:
 ~~~json
 [
     {
-		"pid": 1,
-		"name": "systemd",
-		"ppid": 0,
-		"state": 1,
-		"childs": [
-			{
-				"ppid": 1,
-				"pid": 279,
-				"name": "systemd-journal",
-				"state": 1 
-			}
+        "pid": 1,
+        "name": "systemd",
+        "ppid": 0,
+        "state": 1,
+        "childs": [
+            {
+                "ppid": 1,
+                "pid": 279,
+                "name": "systemd-journal",
+                "state": 1
+            }
         ]
     }
 ]
