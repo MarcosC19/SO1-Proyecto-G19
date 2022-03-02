@@ -11,11 +11,10 @@ MODULE_AUTHOR("Steven Jocol");
 MODULE_DESCRIPTION("Modulo que muestra los procesos del sistema/usuario");
 MODULE_VERSION("1.0");
 
-struct task_struct *task;
-struct task_struct *task_child;
-struct list_head *list;
-
 static int escribir_proc(struct seq_file *m, void *v){
+    struct task_struct *task;
+    struct task_struct *task_child;
+    struct list_head *list;
 
     seq_printf(m, "[\n");
     bool pfirst = true;
