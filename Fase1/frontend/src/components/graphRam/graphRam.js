@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import './GraphRam.css'
 import {
     Chart as ChartJS,
@@ -24,39 +24,23 @@ ChartJS.register(
     Filler
 );
 
-const scores = [60, 50, 50, 50, 30, 40, 60, 40, 50];
-const scores2 = [10, 30, 20, 20, 40, 40, 50, 30, 20];
-const labels = [100, 200, 300, 400, 500, 600, 700];
+const labels = [];
 
-const options = {
-    responsive: true,
-    scales: {
-        y: {
-            min: 0,
-            max: 100
-        },
-    },
-    plugins: {
-        legend: {
-            display: true,
-        },
-    },
-};
-
-export default function GraphRam(){
-
+export default function GraphRam(props) {
+    const values = props.data
+    
     const data = {
         datasets: [
             {
                 label: "RAM VM1",
-                data: scores,
+                data: values.grafica1,
                 borderColor: "rgb(75, 192, 192)",
                 pointBackgroundColor: "rgb(75, 192, 192)",
                 backgroundColor: "rgba(75, 192, 192, 0.3)",
             },
             {
                 label: "RAM VM2",
-                data: scores2,
+                data: values.grafica2,
                 borderColor: "green",
                 backgroundColor: "rgba(0, 255, 0, 0.3)",
             },
@@ -64,7 +48,31 @@ export default function GraphRam(){
         labels,
     }
 
-    return(        
+    const maxLength = values.grafica1.length
+    if (values.grafica2.length > values.grafica1.length){
+        maxLength = values.grafica2.length
+    }
+
+    useEffect(() => {
+        labels.push(maxLength)
+    }, [values])
+
+    const options = {
+        responsive: true,
+        scales: {
+            y: {
+                min: 0,
+                max: values.maxValue
+            },
+        },
+        plugins: {
+            legend: {
+                display: true,
+            },
+        },
+    };
+
+    return (
         <div className="grafica">
             <Line data={data} options={options} />
         </div>
