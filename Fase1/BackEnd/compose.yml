@@ -2,6 +2,8 @@ services:
   backend: 
     image: stevengez/backendkernel:latest
     container_name: backendKernel
+    environment:
+      - VM_NAME=1
     ports:
       - "80:5000"
     volumes:

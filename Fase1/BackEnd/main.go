@@ -14,6 +14,7 @@ var MONGO_USER = getEnv("MONGO_USER", "userp1")
 var MONGO_PASS = getEnv("MONGO_PASS", "userp1password")
 var MONGO_HOST = getEnv("MONGO_HOST", "192.168.1.12")
 var MONGO_PORT = getEnv("MONGO_PORT", "27017")
+var VM_NAME = getEnv("VM_NAME", "1")
 
 const MONGO_DB = "SO_Practica1"
 const MONGO_COLLETION_NAME = "operations"
@@ -53,7 +54,10 @@ func getRAMstatus(c *fiber.Ctx) {
 
 	defer file.Close()
 	data, err := ioutil.ReadAll(file)
-	c.Status(200).Send(data)
+
+	dataStr := string(data)
+	jsonResponse := "{\n\t\"vm\": " + VM_NAME + ",\n\t\"data\":" + dataStr + "\n}"
+	c.Status(200).Send(jsonResponse)
 }
 
 func getCPUstatus(c *fiber.Ctx) {
@@ -67,5 +71,7 @@ func getCPUstatus(c *fiber.Ctx) {
 
 	defer file.Close()
 	data, err := ioutil.ReadAll(file)
-	c.Status(200).Send(data)
+	dataStr := string(data)
+	jsonResponse := "{\n\t\"vm\": " + VM_NAME + ",\n\t\"data\":" + dataStr + "\n}"
+	c.Status(200).Send(jsonResponse)
 }
