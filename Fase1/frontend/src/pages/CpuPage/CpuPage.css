@@ -8,6 +8,7 @@
     width: 50%;
     height: 100%;
     position: fixed;
+    overflow: scroll;
 }
 
 #vm2{
@@ -15,4 +16,5 @@
     height: 100%;
     position: fixed;
     left: 50%;
+    overflow: scroll;
 }
