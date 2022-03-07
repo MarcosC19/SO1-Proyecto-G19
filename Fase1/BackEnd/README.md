@@ -58,7 +58,7 @@ Respuesta:
 
 Al activarse cualquiera de los dos puntos entradas de la API ademas de devolver el resultado se invocara a la funcion de CloudFunctions que insertara un nuevo objeto a la DB con la siguiente estructura
 
-~~~json
+~~~
 {
     "logtype" : "RAM",
     "logorigin" : "1",
