@@ -24,23 +24,25 @@ const MONGO_COLLETION_NAME = "registros"
 
 type Log struct {
 	LogType    string    `json:Logtype,omitempty`
-	LogOrigin  string    `json:LogOrigin,omitempty`
+	LogOrigin  int       `json:LogOrigin,omitempty`
 	LogContent string    `json:LogContent,omitempty`
 	Timestamp  time.Time `json:timestamp,omitempty`
 }
 
 func AddOperation(w http.ResponseWriter, r *http.Request) {
 
-	client, err := mongo.Connect(context.Background(), options.Client().ApplyURI("mongodb+srv://"+MONGO_USER+":"+MONGO_PASS+"@"+MONGO_HOST+"/"+MONGO_DB+"?retryWrites=true&w=majority"))
+	client, err := mongo.Connect(context.Background(), options.Client().ApplyURI("mongodb+srv://"+MONGO_USER+":"+MONGO_PASS+"@"+MONGO_HOST+"/?retryWrites=true&w=majority"))
 
 	if err != nil {
 		fmt.Println(err)
+		return
 	}
 
 	err = client.Ping(context.Background(), readpref.Primary())
 
 	if err != nil {
 		fmt.Println(err)
+		return
 	}
 
 	collection := client.Database(MONGO_DB).Collection(MONGO_COLLETION_NAME)
@@ -65,6 +67,4 @@ func AddOperation(w http.ResponseWriter, r *http.Request) {
 
 	fmt.Fprint(w, res)
 	return
-	//response, _ := json.Marshal(res)
-	//c.Send(response)
 }
