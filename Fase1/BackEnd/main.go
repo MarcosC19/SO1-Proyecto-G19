@@ -7,7 +7,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
-	"time"
 
 	"github.com/gofiber/cors"
 	"github.com/gofiber/fiber"
@@ -18,13 +17,6 @@ var CLOUD_FUNCTION_SERVER = getEnv("CF_URL", "https://us-central1-sopes1-341821.
 
 const MONGO_DB = "SO_Practica1"
 const MONGO_COLLETION_NAME = "operations"
-
-type Operation struct {
-	Left      float64   `json:left,omitempty`
-	Right     float64   `json:right,omitempty`
-	Operator  string    `json:operator,omitempty`
-	Timestamp time.Time `json:timestamp,omitempty`
-}
 
 func main() {
 	fmt.Println("GoBackEnd Running in port: ", 5000)

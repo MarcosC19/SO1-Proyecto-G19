@@ -1,4 +1,4 @@
-module cf
+module proyecto.com/cf
 
 go 1.15
 
