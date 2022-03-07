@@ -61,14 +61,14 @@ Al activarse cualquiera de los dos puntos entradas de la API ademas de devolver 
 ~~~json
 {
     "logtype" : "RAM",
-	"logorigin" : "1",
+    "logorigin" : "1",
     "logcontent" : "{
-                        \"total\" :    15848,
-                        \"used\" :    12152,
-                        \"percentage\" : 76,
-                        \"free\" :     3696
+                        total: 15848,
+                        used: 12152,
+                        percentage: 76,
+                        free: 3696
                     }",
-	"timestamp" : 2022-03-07T04:46:44.201+00:00
+    "timestamp" : "2022-03-07T04:46:44.201+00:00"
 }
 ~~~
 
