@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
+	"strconv"
 
 	"github.com/gofiber/cors"
 	"github.com/gofiber/fiber"
@@ -49,8 +50,12 @@ func getRAMstatus(c *fiber.Ctx) {
 
 	dataStr := string(data)
 	jsonResponse := "{\n\t\"vm\": " + VM_NAME + ",\n\t\"data\":" + dataStr + "\n}"
+	VM_NAME_INT, sterr := strconv.Atoi(VM_NAME)
+	if sterr != nil {
+		VM_NAME_INT = 1
+	}
 
-	toCloud := map[string]string{"LogType": "RAM", "LogOrigin": VM_NAME, "LogContent": dataStr}
+	toCloud := map[string]interface{}{"LogType": "RAM", "LogOrigin": VM_NAME_INT, "LogContent": dataStr}
 	json_data, err := json.Marshal(toCloud)
 
 	if err != nil {
@@ -80,8 +85,12 @@ func getCPUstatus(c *fiber.Ctx) {
 	data, err := ioutil.ReadAll(file)
 	dataStr := string(data)
 	jsonResponse := "{\n\t\"vm\": " + VM_NAME + ",\n\t\"data\":" + dataStr + "\n}"
+	VM_NAME_INT, sterr := strconv.Atoi(VM_NAME)
+	if sterr != nil {
+		VM_NAME_INT = 1
+	}
 
-	toCloud := map[string]string{"LogType": "CPU", "LogOrigin": VM_NAME, "LogContent": dataStr}
+	toCloud := map[string]interface{}{"LogType": "CPU", "LogOrigin": VM_NAME_INT, "LogContent": dataStr}
 	json_data, err := json.Marshal(toCloud)
 
 	if err != nil {
