@@ -4,6 +4,7 @@ services:
     container_name: backendKernel
     environment:
       - VM_NAME=1
+      - CF_URL=https://us-central1-sopes1-341821.cloudfunctions.net/insertomongo
     ports:
       - "80:5000"
     volumes:

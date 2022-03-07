@@ -1,8 +1,11 @@
 package main
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"net/http"
 	"os"
 	"time"
 
@@ -10,11 +13,8 @@ import (
 	"github.com/gofiber/fiber"
 )
 
-var MONGO_USER = getEnv("MONGO_USER", "userp1")
-var MONGO_PASS = getEnv("MONGO_PASS", "userp1password")
-var MONGO_HOST = getEnv("MONGO_HOST", "192.168.1.12")
-var MONGO_PORT = getEnv("MONGO_PORT", "27017")
 var VM_NAME = getEnv("VM_NAME", "1")
+var CLOUD_FUNCTION_SERVER = getEnv("CF_URL", "https://us-central1-sopes1-341821.cloudfunctions.net/insertomongo")
 
 const MONGO_DB = "SO_Practica1"
 const MONGO_COLLETION_NAME = "operations"
@@ -57,6 +57,21 @@ func getRAMstatus(c *fiber.Ctx) {
 
 	dataStr := string(data)
 	jsonResponse := "{\n\t\"vm\": " + VM_NAME + ",\n\t\"data\":" + dataStr + "\n}"
+
+	toCloud := map[string]string{"LogType": "RAM", "LogOrigin": VM_NAME, "LogContent": dataStr}
+	json_data, err := json.Marshal(toCloud)
+
+	if err != nil {
+		fmt.Println("Error parsing the data to json for cloud...")
+		return
+	}
+
+	_, cerr := http.Post(CLOUD_FUNCTION_SERVER, "application/json", bytes.NewBuffer(json_data))
+
+	if cerr != nil {
+		fmt.Println("Error sending request to CloudFunctions: ", cerr)
+	}
+
 	c.Status(200).Send(jsonResponse)
 }
 
@@ -73,5 +88,20 @@ func getCPUstatus(c *fiber.Ctx) {
 	data, err := ioutil.ReadAll(file)
 	dataStr := string(data)
 	jsonResponse := "{\n\t\"vm\": " + VM_NAME + ",\n\t\"data\":" + dataStr + "\n}"
+
+	toCloud := map[string]string{"LogType": "CPU", "LogOrigin": VM_NAME, "LogContent": dataStr}
+	json_data, err := json.Marshal(toCloud)
+
+	if err != nil {
+		fmt.Println("Error parsing the data to json for cloud...")
+		return
+	}
+
+	_, cerr := http.Post(CLOUD_FUNCTION_SERVER, "application/json", bytes.NewBuffer(json_data))
+
+	if cerr != nil {
+		fmt.Println("Error sending request to CloudFunctions: ", cerr)
+	}
+
 	c.Status(200).Send(jsonResponse)
 }
