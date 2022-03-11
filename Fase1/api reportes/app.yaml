@@ -1,0 +1,7 @@
+runtime: nodejs
+env: flex
+env_variables:
+  hostMongo: 108.59.80.116
+  portMongo: 27017
+  adminMongo: mongoadminG19
+  passwordMongo: proyectof1g19

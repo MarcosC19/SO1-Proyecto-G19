@@ -27,13 +27,13 @@ export default function RamPage() {
     })
 
     function getDataRam() {
-        setInterval(() => {
+        const timeOut = setInterval(() => {
             fetch(`http://${process.env.REACT_APP_IPAPI}:80/getRAMstatus`)
                 .then(res => res.json())
                 .then(data => {
                     console.log(data.data)
                     let values = data.data
-                    if (data.vm === 1){
+                    if (data.vm === 1) {
                         setDataRAM1({
                             total: values.total,
                             used: values.used,
@@ -41,13 +41,13 @@ export default function RamPage() {
                             free: values.free
                         })
                         arrayDataRam.grafica1.push(values.used)
-    
+
                         setArrayDataRam({
                             maxValue: values.total,
                             grafica1: arrayDataRam.grafica1,
                             grafica2: arrayDataRam.grafica2
                         })
-                    } else if(data.vm === 2){
+                    } else if (data.vm === 2) {
                         setDataRAM2({
                             total: values.total,
                             used: values.used,
@@ -55,7 +55,7 @@ export default function RamPage() {
                             free: values.free
                         })
                         arrayDataRam.grafica2.push(values.used)
-    
+
                         setArrayDataRam({
                             maxValue: values.total,
                             grafica1: arrayDataRam.grafica1,
@@ -64,10 +64,12 @@ export default function RamPage() {
                     }
                 })
         }, 2000)
+        return timeOut
     }
 
     useEffect(() => {
-        getDataRam()
+        const timeOut = getDataRam()
+        return () => clearInterval(timeOut)
     }, [])
 
     return (
@@ -78,7 +80,7 @@ export default function RamPage() {
                 <RamInfo data={dataRAM1} />
             </div>
 
-            <GraphRam data = {arrayDataRam}/>
+            <GraphRam data={arrayDataRam} />
 
             <div id="vm2" className="bg-success bg-gradient border border-dark">
                 <p className="fs-1 text-center">VM2</p>

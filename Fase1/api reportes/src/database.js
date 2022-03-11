@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 require('dotenv').config()
 
-const URI = `mongodb://${process.env.adminMongo}:${process.env.passwordMongo}@${process.env.hostMongo}:${process.env.portMongo}/proyectoF1`
+const URI = `mongodb://${process.env.adminMongo}:${process.env.passwordMongo}@${process.env.hostMongo}:${process.env.portMongo}/F1_ProyectoG19`
 
 mongoose.connect(URI, {
     authSource: 'admin'
