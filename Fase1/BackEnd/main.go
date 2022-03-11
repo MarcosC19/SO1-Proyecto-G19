@@ -25,6 +25,7 @@ func main() {
 	app.Use(cors.New())
 	app.Get("/getRAMstatus/", getRAMstatus)
 	app.Get("/getCPUstatus/", getCPUstatus)
+	app.Get("/status/", getServerStatus)
 	app.Listen(5000)
 }
 
@@ -34,6 +35,10 @@ func getEnv(key, fallback string) string {
 		return fallback
 	}
 	return value
+}
+
+func getServerStatus(c *fiber.Ctx) {
+	c.Status(200).Send("ok")
 }
 
 func getRAMstatus(c *fiber.Ctx) {
