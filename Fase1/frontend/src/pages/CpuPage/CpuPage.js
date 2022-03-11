@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./CpuPage.css";
-import NavBar from "../../components/NavBar/NavBar";
+import NavBar from "../../components/NavBar";
 import Tree from '@naisutech/react-tree';
 import Swal from 'sweetalert2';
 

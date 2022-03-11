@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import './RamPage.css';
-import NavBar from "../../components/NavBar/NavBar";
-import RamInfo from '../../components/RamInfo/RamInfo';
-import GraphRam from "../../components/GraphRam/GraphRam";
+import NavBar from "../../components/NavBar";
+import RamInfo from '../../components/RamInfo';
+import GraphRam from '../../components/GraphRam'
 
 export default function RamPage() {
 

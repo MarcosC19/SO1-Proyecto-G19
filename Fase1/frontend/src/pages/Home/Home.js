@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import './Home.css';
-import NavBar from "../../components/NavBar/NavBar";
+import NavBar from "../../components/NavBar";
 import { Table } from 'reactstrap';
 import socket from "../../socket/Socket";
 
