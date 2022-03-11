@@ -1,15 +1,13 @@
 FROM node:16-alpine
 
-WORKDIR /g19
-
-COPY package*.json ./
+WORKDIR /app
 
 COPY . .
 
-RUN npm i
+RUN npm install
 
-ENV REACT_APP_IPAPI=35.208.76.187
-
-EXPOSE 3000
+ENV REACT_APP_IPAPI 35.208.76.187
 
 CMD ["npm", "run", "start"]
+
+EXPOSE 3000
