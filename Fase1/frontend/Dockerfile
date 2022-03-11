@@ -10,4 +10,6 @@ RUN npm i
 
 ENV REACT_APP_IPAPI=35.208.76.187
 
+EXPOSE 3000
+
 CMD ["npm", "run", "start"]
