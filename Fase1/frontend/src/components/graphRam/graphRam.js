@@ -48,13 +48,15 @@ export default function GraphRam(props) {
         labels,
     }
 
-    const maxLength = values.grafica1.length
+    let maxLength = values.grafica1.length
     if (values.grafica2.length > values.grafica1.length){
         maxLength = values.grafica2.length
     }
 
     useEffect(() => {
-        labels.push(maxLength)
+        if (!labels.includes(maxLength)){
+            labels.push(maxLength)
+        }
     }, [values])
 
     const options = {

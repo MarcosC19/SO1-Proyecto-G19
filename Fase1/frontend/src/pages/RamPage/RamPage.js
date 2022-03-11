@@ -7,17 +7,17 @@ import GraphRam from "../../components/GraphRam/GraphRam";
 export default function RamPage() {
 
     const [dataRAM1, setDataRAM1] = useState({
-        total: '',
-        used: '',
-        percentage: '',
-        free: ''
+        total: 0,
+        used: 0,
+        percentage: 0,
+        free: 0
     })
 
     const [dataRAM2, setDataRAM2] = useState({
-        total: '',
-        used: '',
-        percentage: '',
-        free: ''
+        total: 0,
+        used: 0,
+        percentage: 0,
+        free: 0
     })
 
     const [arrayDataRam, setArrayDataRam] = useState({
@@ -28,24 +28,42 @@ export default function RamPage() {
 
     function getDataRam() {
         setInterval(() => {
-            fetch(`http://${process.env.REACT_APP_IPAPI}/getRAMstatus`)
+            fetch(`http://${process.env.REACT_APP_IPAPI}:80/getRAMstatus`)
                 .then(res => res.json())
                 .then(data => {
-                    setDataRAM1({
-                        total: data.total,
-                        used: data.used,
-                        percentage: data.percentage,
-                        free: data.free
-                    })
-                    arrayDataRam.grafica1.push(data.used)
-
-                    setArrayDataRam({
-                        maxValue: data.total,
-                        grafica1: arrayDataRam.grafica1,
-                        grafica2: arrayDataRam.grafica2
-                    })
+                    console.log(data.data)
+                    let values = data.data
+                    if (data.vm === 1){
+                        setDataRAM1({
+                            total: values.total,
+                            used: values.used,
+                            percentage: values.percentage,
+                            free: values.free
+                        })
+                        arrayDataRam.grafica1.push(values.used)
+    
+                        setArrayDataRam({
+                            maxValue: values.total,
+                            grafica1: arrayDataRam.grafica1,
+                            grafica2: arrayDataRam.grafica2
+                        })
+                    } else if(data.vm === 2){
+                        setDataRAM2({
+                            total: values.total,
+                            used: values.used,
+                            percentage: values.percentage,
+                            free: values.free
+                        })
+                        arrayDataRam.grafica2.push(values.used)
+    
+                        setArrayDataRam({
+                            maxValue: values.total,
+                            grafica1: arrayDataRam.grafica1,
+                            grafica2: arrayDataRam.grafica2
+                        })
+                    }
                 })
-        }, 1000)
+        }, 2000)
     }
 
     useEffect(() => {
