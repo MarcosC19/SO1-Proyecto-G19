@@ -2,7 +2,31 @@
 
 Backend desarrollado en GO para obtener la informacion de uso de RAM y procesos en el CPU
 
+## Como desplegar el servidor
+
 La api esta contenida en una imagen de docker que puede ser levantada usando el archivo de docker compose desde el respositorio **stevengez/backendkernel:latest**
+
+Para desplegar el servidor BackEnd primero debe insertarse dos modulos en el kernel para leer la informacion de RAM y CPU
+
+Para esto puede hacerse de manera facil con **MAKE**, ejecutando en cada carpeta del modulo el comando **MAKE RUN** con permisos de superusuario
+
+Para su facil implementacion el servidor backend puede ser desplegado usando un archivo de docker-compose con la siguiente estructura:
+
+```docker
+services:
+  backend: 
+    image: stevengez/backendkernel:latest
+    container_name: backendKernel
+    environment:
+      - VM_NAME=1
+      - CF_URL=https://us-central1-sopes1-341821.cloudfunctions.net/insertomongo
+    ports:
+      - "80:5000"
+    volumes:
+      - /proc:/hostProc
+```
+
+Donde **VM_NAME** es el numero de la maquina virtual y **CF_URL** es la URL para invocar la funcion de google cloud
 
 ### Puntos de entrada
 
