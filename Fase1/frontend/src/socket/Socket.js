@@ -1,5 +1,5 @@
 import io from 'socket.io-client'
 
-let socket = io(`http://${process.env.REACT_APP_IPHOST}:8080/getLogs`)
+let socket = io(`https://so1-proyecto-342902.uc.r.appspot.com/getLogs`)
 
 export default socket
