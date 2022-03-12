@@ -23,6 +23,9 @@ Se utiliza una version alpine de NodeJS para reducir el tamano y se pasa una var
 
 El resultado deberia verse asi en los registros de google cloud run: 
 
+![image](https://user-images.githubusercontent.com/53009062/157994343-12338b9e-1abc-4dda-9ed9-d40605acabc8.png)
+
+
 
 
 
