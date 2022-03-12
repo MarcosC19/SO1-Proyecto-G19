@@ -1,7 +1,11 @@
 runtime: nodejs
 env: flex
+manual_scaling:
+ instances: 1
+network:
+ session_affinity: true
 env_variables:
-  hostMongo: 108.59.80.116
+  hostMongo: 34.121.72.211
   portMongo: 27017
   adminMongo: mongoadminG19
   passwordMongo: proyectof1g19
