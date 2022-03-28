@@ -21,8 +21,6 @@ router.post('/getResult', (req, res) => {
             "winner": response.winner
         }
 
-        console.log('Resultados: { ', response.gameId, ', ', response.players, ', ', response.gameName, ', ', response.winner, ' }');
-
         res.status(200).json(result)
     });
 })
