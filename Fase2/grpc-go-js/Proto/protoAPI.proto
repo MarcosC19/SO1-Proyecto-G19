@@ -1,11 +1,12 @@
 syntax = "proto3";
 
+option go_package = "proyecto.com/fase2/protoAPI";
 option java_multiple_files = true;
-option java_package = "sopes1.fase2.proyecto";
-option java_outer_classname = "proyecto";
+option java_package = "proyecto.com/fase2/protoAPI";
+option java_outer_classname = "protoAPI";
 option objc_class_prefix = "spf2";
 
-package proyecto;
+package protoAPI;
 
 service localAPI {
     rpc startGame (GameRequest) returns (GameResult) {}
