@@ -204,10 +204,31 @@ const smallBrother = (players) => {
 
 /** ################################# */
 
+/** ########### Roulette ############ */
+
+const roulette = (players) => {
+    console.log("Starting Roulette for ",players, " players");
+    let playerList = [];
+    for(let i=1;i<=players;i++){
+        playerList.push(i);
+    }
+
+    while(playerList.length > 1){
+        let randomIndex = Math.round(Math.random()*(playerList.length-1));
+        playerList.splice(randomIndex, 1);
+    }
+
+    console.log(`Just (${playerList.length}) player remaining: ${playerList[0]}`);
+    return playerList[0];
+}
+
+/** ################################# */
+
 
 module.exports = {
     rps,
     flipit,
     bigBrother,
-    smallBrother
+    smallBrother,
+    roulette
 }

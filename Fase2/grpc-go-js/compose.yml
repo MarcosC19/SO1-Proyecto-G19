@@ -1,0 +1,51 @@
+# services:
+#   goclient:
+#     image: stevengez/goclient_grpc
+#     container_name: goClient_gRPC
+#     environment:
+#       - gRPC_SERVER_IP=192.168.1.21
+#       - gRPC_SERVER_PORT=50051
+#       - API_GO_PORT=5000
+#     ports:
+#       - "5000:5000"
+#   goserver:
+#     image: stevengez/nodeserver_grpc
+#     container_name: nodeServer_gRPC
+#     environment:
+#       - gRPC_SERVER_PORT=50051
+#     ports:
+#       - "50051:50051"
+#   rabbit:
+#     image: rabbitmq:3.9.14-alpine
+#     container_name: messagequeue
+#     environment:
+#       - RABBITMQ_DEFAULT_USER=rabbit
+#       - RABBITMQ_DEFAULT_PASS=sopes1
+#     ports:
+#       - "5672:5672"
+
+services:
+  rabbit:
+    image: rabbitmq:3.9.14-alpine
+    container_name: messagequeue
+    environment:
+      - RABBITMQ_DEFAULT_USER=rabbit
+      - RABBITMQ_DEFAULT_PASS=sopes1
+    ports:
+      - "5672:5672"
+  redis:
+    image: redis:6.2.6
+    container_name: redisdb
+    ports:
+      - "6379:6379"
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=mongoadminG19
+      - MONGO_INITDB_ROOT_PASSWORD=proyectof1g19
+    ports:
+      - "27017:27017"
+
+    
+

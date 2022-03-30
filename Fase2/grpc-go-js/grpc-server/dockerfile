@@ -1,0 +1,8 @@
+FROM node:16-alpine
+WORKDIR /
+COPY . .
+RUN npm install
+ENV gRPC_SERVER_PORT 50051
+EXPOSE 50051
+CMD ["npm","start"]
+
