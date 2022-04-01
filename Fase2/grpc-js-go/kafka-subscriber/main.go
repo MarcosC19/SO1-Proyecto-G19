@@ -7,6 +7,7 @@ import (
 
 	"github.com/MarcosC19/SO1-Proyecto-G19/Fase2/grpc-js-go/kafka-subscriber/Mongo"
 	"github.com/MarcosC19/SO1-Proyecto-G19/Fase2/grpc-js-go/kafka-subscriber/Redis"
+	"github.com/MarcosC19/SO1-Proyecto-G19/Fase2/grpc-js-go/kafka-subscriber/TiDB"
 	"github.com/segmentio/kafka-go"
 )
 
@@ -45,6 +46,9 @@ func ReadKafka() {
 
 		// LLAMANDO A LA FUNCION PARA GUARDAR DATA REDIS
 		Redis.SaveRedis(logString)
+
+		// LLAMANDO A LA FUNCION PARA GUARDAR DATA EN TIDB
+		TiDB.SavetiDB(logJson)
 	}
 }
 
