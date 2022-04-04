@@ -11,7 +11,9 @@ import (
 )
 
 const (
-	port = 27017
+	port     = 27017
+	user     = "admingrupo19"
+	password = "so1-fase2"
 )
 
 // JSON PARA RECIBIR DE KAFKA
@@ -25,13 +27,14 @@ type Logs struct {
 
 // GUARDANDO LOGS EN MONGODB
 func SaveLogs(logsData Logs) {
-	host, defined := os.LookupEnv("HOSTIP_MONGO")
-	if !defined {
+	host := os.Getenv("HOSTIP_MONGO")
+
+	if len(host) == 0 {
 		host = "localhost"
 	}
 
 	// OPENING CONNECTION TO MONGODB
-	clientOpts := options.Client().ApplyURI(fmt.Sprintf("mongodb://%s:%d", host, port))
+	clientOpts := options.Client().ApplyURI(fmt.Sprintf("mongodb://%s:%s@%s:%d", user, password, host, port))
 	client, err := mongo.Connect(context.TODO(), clientOpts)
 	if err != nil {
 		log.Fatal(err)

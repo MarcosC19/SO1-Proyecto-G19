@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"os"
 
 	"github.com/MarcosC19/SO1-Proyecto-G19/Fase2/grpc-js-go/kafka-subscriber/Mongo"
 	"github.com/MarcosC19/SO1-Proyecto-G19/Fase2/grpc-js-go/kafka-subscriber/Redis"
@@ -13,9 +14,15 @@ import (
 
 // OBTENIENDO LA COLA DE KAFKA
 func ReadKafka() {
+	host := os.Getenv("HOSTIP_KAFKA")
+
+	if len(host) == 0 {
+		host = "localhost:9092"
+	}
+
 	// CONFIGURACION DEL LECTOR
 	conf := kafka.ReaderConfig{
-		Brokers:  []string{"localhost:9092"},
+		Brokers:  []string{host},
 		Topic:    "so1-proyecto-fase2",
 		MinBytes: 10e3, // 10KB
 		MaxBytes: 10e6, // 10MB

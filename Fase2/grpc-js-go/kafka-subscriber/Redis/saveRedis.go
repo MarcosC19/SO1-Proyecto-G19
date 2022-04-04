@@ -11,8 +11,9 @@ import (
 var ctx = context.Background()
 
 func SaveRedis(logsData string) {
-	host, defined := os.LookupEnv("HOSTIP_REDIS")
-	if !defined {
+	host := os.Getenv("HOSTIP_REDIS")
+
+	if len(host) == 0 {
 		host = "localhost"
 	}
 	rdb := redis.NewClient(&redis.Options{

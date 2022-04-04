@@ -9,11 +9,9 @@ import (
 )
 
 func SavetiDB(logsData Mongo.Logs) {
-	host, defined := os.LookupEnv("HOSTIP_TIDB")
-	if !defined {
-		host = "localhost"
-	}
-	db, err := sql.Open("mysql", "grupo19:grupo19-f2@tcp("+host+")/sopes1f2")
+	host := os.Getenv("HOSTIP_TIDB")
+
+	db, err := sql.Open("mysql", "grupo19:grupo19-f2@tcp("+host+":4000)/sopes1f2")
 
 	if err != nil {
 		panic(err)

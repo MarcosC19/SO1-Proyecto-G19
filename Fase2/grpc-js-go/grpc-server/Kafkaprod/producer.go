@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/segmentio/kafka-go"
 )
@@ -33,7 +34,7 @@ func SendKafka(id_game int32, num_players int32, name_game string, winner_game i
 	jsonString, err := json.Marshal(myLog)
 
 	if err != nil {
-		fmt.Println("Ocurrio un error: ", err)
+		fmt.Println("Ocurrio un error json: ", err)
 	}
 
 	// CONVIRTIENDO JSON EN STRING
@@ -45,10 +46,20 @@ func SendKafka(id_game int32, num_players int32, name_game string, winner_game i
 	topic := "so1-proyecto-fase2"
 	partition := 0
 
+	host := os.Getenv("HOSTIP_KAFKA")
+
+	if len(host) == 0 {
+		host = "localhost:9092"
+	}
+
+	hostname := host
+
+	fmt.Println(hostname)
+
 	// CREANDO CONEXION
-	conn, err := kafka.DialLeader(context.Background(), "tcp", "localhost:9092", topic, partition)
+	conn, err := kafka.DialLeader(context.Background(), "tcp", hostname, topic, partition)
 	if err != nil {
-		log.Fatal("Ocurrio un error: ", err)
+		log.Fatal("Ocurrio un error kafka: ", err.Error())
 	}
 
 	// RECORRIENDO TODO EL JSON EN STRING
