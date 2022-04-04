@@ -2,12 +2,16 @@ package main
 
 import (
 	"context"
+	"database/sql"
 	"encoding/json"
 	"fmt"
-	"go.mongodb.org/mongo-driver/mongo/readpref"
 	"os"
+	"strconv"
+
+	"go.mongodb.org/mongo-driver/mongo/readpref"
 
 	"github.com/go-redis/redis/v8"
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/streadway/amqp"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -27,6 +31,7 @@ const (
 	MONGO_PASS_ENV       = "MONGO_PASS"
 	MONGO_DB_ENV         = "MONGO_DB"
 	MONGO_COLLECTION_ENV = "MONGO_COLLECTION"
+	TIDB_HOST_ENV        = "TiDB_HOSt"
 )
 
 var (
@@ -43,6 +48,7 @@ var (
 	MongoPass       = getEnv(MONGO_PASS_ENV, "proyectof1g19")
 	MongoDB         = getEnv(MONGO_DB_ENV, "so-proyecto-f2")
 	MongoCollection = getEnv(MONGO_COLLECTION_ENV, "logs")
+	TiDBHost        = getEnv(TIDB_HOST_ENV, "34.68.145.193")
 )
 
 type Log struct {
@@ -176,4 +182,31 @@ func saveToRedis(data string) {
 		fmt.Println("Error inserting data: ", err)
 		return
 	}
+}
+
+func saveToTiDB(logsData Log) {
+	host := os.Getenv("HOSTIP_TIDB")
+
+	db, err := sql.Open("mysql", "grupo19:grupo19-f2@tcp("+host+":4000)/sopes1f2")
+
+	if err != nil {
+		panic(err)
+	}
+
+	defer db.Close()
+
+	insert, err := db.Prepare("INSERT INTO fase2(game_id, players, game_name, winner, queue) VALUES(?, ?, ?, ?, ?)")
+
+	if err != nil {
+		panic(err.Error())
+	}
+
+	w, err := strconv.Atoi(logsData.Winner)
+	if err != nil {
+		w = 0
+	}
+
+	insert.Exec(int(logsData.Game_id), int(logsData.Players), logsData.Game_name, int(w), logsData.Queue)
+
+	defer insert.Close()
 }
