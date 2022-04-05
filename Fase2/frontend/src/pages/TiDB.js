@@ -7,7 +7,20 @@ import NavBar from '../components/NavBar'
 export default function TiDB(){
 
     useEffect(() => {
-        socketTidb.emit('results')
+        socketTidb.emit('lastTenGames')
+        socketTidb.on('lastTenGamesResult', (results) => {
+            console.log(results)
+        })
+
+        socketTidb.emit('bestPlayers')
+        socketTidb.on('bestPlayersResult', (results) => {
+            console.log(results)
+        })
+
+        socketTidb.emit('statsPlayer', 1)
+        socketTidb.on('statsPlayerResult', (results) => {
+            console.log(results)
+        })
     }, [])
 
     return(
