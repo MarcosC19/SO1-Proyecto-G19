@@ -137,6 +137,7 @@ func listenMessages(messages <-chan amqp.Delivery) {
 
 		saveToRedis(string(message.Body))
 		saveToMongo(log)
+		saveToTiDB(log)
 	}
 }
 func saveToMongo(data Log) {
@@ -192,13 +193,16 @@ func saveToRedis(data string) {
 		fmt.Println("Error inserting data: ", err)
 		return
 	}
+
+	fmt.Println("Nuevo log insertado en Redis:", keyname)
 }
 
 func saveToTiDB(logsData Log) {
 	db, err := sql.Open("mysql", TiDBUser+":"+TiDBPass+"@tcp("+TiDBHost+":4000)/"+TiDBDB)
 
 	if err != nil {
-		panic(err)
+		fmt.Println("Error connecting to TiDB: ", err)
+		return
 	}
 
 	defer db.Close()
@@ -206,7 +210,8 @@ func saveToTiDB(logsData Log) {
 	insert, err := db.Prepare("INSERT INTO fase2(game_id, players, game_name, winner, queue) VALUES(?, ?, ?, ?, ?)")
 
 	if err != nil {
-		panic(err.Error())
+		fmt.Println("Error preparing the DB insert: ", err)
+		return
 	}
 
 	w, err := strconv.Atoi(logsData.Winner)
@@ -215,6 +220,6 @@ func saveToTiDB(logsData Log) {
 	}
 
 	insert.Exec(int(logsData.Game_id), int(logsData.Players), logsData.Game_name, int(w), logsData.Queue)
-
+	fmt.Println("Nuevo log insertado en TiDB...")
 	defer insert.Close()
 }

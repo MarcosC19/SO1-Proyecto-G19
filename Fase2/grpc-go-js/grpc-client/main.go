@@ -37,7 +37,7 @@ func main() {
 	fmt.Printf("API server running on port %s", getEnv(API_PORT_ENV, "5000"))
 	app := fiber.New()
 	app.Use(cors.New())
-	app.Post("/startGame", startGameRoute)
+	app.Post("/runGame", startGameRoute)
 	app.Get("/", apiTest)
 	err := app.Listen(fmt.Sprintf(":%s", getEnv(API_PORT_ENV, "5000")))
 	if err != nil {
