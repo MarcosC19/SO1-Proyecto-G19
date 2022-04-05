@@ -5,6 +5,7 @@ const { rps, flipit, bigBrother, smallBrother, roulette } = require('./Games');
 const amqp = require('amqplib/callback_api');
 const grpc = require('@grpc/grpc-js');
 const protoLoader = require('@grpc/proto-loader');
+const { delay } = require('lodash');
 const packageDefinition = protoLoader.loadSync(
     PROTO_PATH,
     {
@@ -20,7 +21,7 @@ const proyectDef = grpc.loadPackageDefinition(packageDefinition).protoAPI;
 
 const ServerPort = process.env.gRPC_SERVER_PORT || 50051;
 const RabbitServer = process.env.RABBIT_SERVER || "localhost";
-const RabbitPort = process.env.RABBIT_Port || 5672;
+const RabbitPort = process.env.RABBIT_PORT || 5672;
 const RabbitUser = process.env.RABBIT_USER || "rabbit";
 const RabbitPass = process.env.RABBIT_PASSWORD || "sopes1";
 const RabbitQueue = process.env.RABBIT_QUEUE || "GameQueue";
@@ -106,7 +107,7 @@ const channelCreation = (error, channel) => {
     console.log("GameQueue creation - OK");
 }
 
-const connectionResult = (error, connection) => {
+const connectionResult = async (error, connection) => {
     if(error){
         console.log("Error with the connection:",error);
         return;
@@ -120,5 +121,6 @@ const rabbitConnect = () => {
     amqp.connect(`amqp://${RabbitUser}:${RabbitPass}@${RabbitServer}`, connectionResult);
 }
 
-rabbitConnect();
-startServer();
+delay(rabbitConnect,10000);
+delay(startServer,15000);
+

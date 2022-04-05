@@ -1,20 +1,4 @@
 services:
-  # goclient:
-  #   image: stevengez/goclient_grpc
-  #   container_name: goClient_gRPC
-  #   environment:
-  #     - gRPC_SERVER_IP=192.168.1.21
-  #     - gRPC_SERVER_PORT=50051
-  #     - API_GO_PORT=5000
-  #   ports:
-  #     - "5000:5000"
-  goserver:
-    image: stevengez/nodeserver_grpc
-    container_name: nodeServer_gRPC
-    environment:
-      - gRPC_SERVER_PORT=50051
-    ports:
-      - "50051:50051"
   rabbit:
     image: rabbitmq:3.9.14-alpine
     container_name: messagequeue
@@ -23,6 +7,41 @@ services:
       - RABBITMQ_DEFAULT_PASS=sopes1
     ports:
       - "5672:5672"
+  goserver:
+    depends_on:
+      - rabbit
+    image: stevengez/nodeserver_grpc
+    container_name: nodeServer_gRPC
+    environment:
+      - gRPC_SERVER_PORT=50051
+      - RABBIT_SERVER=192.168.1.21 # VM Local IP where Rabbit is running
+      - RABBIT_USER=rabbit
+      - RABBIT_PASSWORD=sopes1
+      - RABBIT_QUEUE=GameQueue
+    ports:
+      - "50051:50051"
   subscriber:
-    image: 
+    depends_on:
+      - goserver
+    image: stevengez/gorabbit_subscriber
+    container_name: rabbitsubscriber
+    environment:
+      - RABIT_HOST=192.168.1.21 # VM IP where Rabbit is Running
+      - RABBIT_PORT=5672
+      - RABBIT_QUEUE=GameQueue
+      - RABBIT_USER=rabbit
+      - RABBIT_PASSWORD=sopes1
+      - REDIS_HOST=34.136.70.238 # VM IP where Redis is Running
+      - REDIS_PORT=6379
+      - MONGO_HOST=35.222.117.133 # VM IP where Mongo is Running
+      - MONGO_PORT=27017
+      - MONGO_USER=admingrupo19
+      - MONGO_PASS=so1-fase2
+      - MONGO_DB=so-proyecto-f2
+      - MONGO_COLLECTION=logs
+      - TiDB_HOST=34.68.145.193
+      - TiDB_USER=grupo19
+      - TiDB_PORT=grupo19-f2
+      - TiDB_DB=sopes1f2
+    
 

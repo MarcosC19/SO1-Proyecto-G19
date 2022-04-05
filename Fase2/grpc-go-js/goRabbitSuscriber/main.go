@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"time"
 
 	"go.mongodb.org/mongo-driver/mongo/readpref"
 
@@ -31,7 +32,10 @@ const (
 	MONGO_PASS_ENV       = "MONGO_PASS"
 	MONGO_DB_ENV         = "MONGO_DB"
 	MONGO_COLLECTION_ENV = "MONGO_COLLECTION"
-	TIDB_HOST_ENV        = "TiDB_HOSt"
+	TIDB_HOST_ENV        = "TiDB_HOST"
+	TIDB_USER_ENV        = "TiDB_USER"
+	TIDB_PASS_ENV        = "TiDB_PORT"
+	TIDB_DB_ENV          = "TiDB_DB"
 )
 
 var (
@@ -40,15 +44,18 @@ var (
 	RabbitQueue     = getEnv(RABBIT_QUEUE_ENV, "GameQueue")
 	RabbitUser      = getEnv(RABBIT_USER_ENV, "rabbit")
 	RabbitPass      = getEnv(RABBIT_PASS_ENV, "sopes1")
-	RedisHost       = getEnv(REDIS_HOST_ENV, "localhost")
+	RedisHost       = getEnv(REDIS_HOST_ENV, "10.128.0.21")
 	RedisPort       = getEnv(REDIS_PORT_ENV, "6379")
-	MongoHost       = getEnv(MONGO_HOST_ENV, "localhost")
+	MongoHost       = getEnv(MONGO_HOST_ENV, "10.128.0.20")
 	MongoPort       = getEnv(MONGO_PORT_ENV, "27017")
 	MongoUser       = getEnv(MONGO_USER_ENV, "mongoadminG19")
 	MongoPass       = getEnv(MONGO_PASS_ENV, "proyectof1g19")
 	MongoDB         = getEnv(MONGO_DB_ENV, "so-proyecto-f2")
 	MongoCollection = getEnv(MONGO_COLLECTION_ENV, "logs")
 	TiDBHost        = getEnv(TIDB_HOST_ENV, "34.68.145.193")
+	TiDBUser        = getEnv(TIDB_USER_ENV, "grupo19")
+	TiDBPass        = getEnv(TIDB_PASS_ENV, "grupo19-f2")
+	TiDBDB          = getEnv(TIDB_DB_ENV, "sopes1f2")
 )
 
 type Log struct {
@@ -68,6 +75,8 @@ func getEnv(key, fallback string) string {
 }
 
 func main() {
+	// Wait for Rabbit to Start Delay
+	time.Sleep(15 * time.Second)
 
 	// Start the RabbitMQ connection using credentials
 	conn, err := amqp.Dial(fmt.Sprintf("amqp://%s:%s@%s:%s", RabbitUser, RabbitPass, RabbitHost, RabbitPort))
@@ -97,7 +106,8 @@ func main() {
 	)
 
 	if err != nil {
-		fmt.Printf("Error suascribing to %s queue, error: %s \n", RabbitQueue, err)
+		fmt.Printf("Error subscribing to %s queue, error: %s \n", RabbitQueue, err)
+		return
 	}
 
 	fmt.Println("Connection succeed to RabbitMQ")
@@ -185,9 +195,7 @@ func saveToRedis(data string) {
 }
 
 func saveToTiDB(logsData Log) {
-	host := os.Getenv("HOSTIP_TIDB")
-
-	db, err := sql.Open("mysql", "grupo19:grupo19-f2@tcp("+host+":4000)/sopes1f2")
+	db, err := sql.Open("mysql", TiDBUser+":"+TiDBPass+"@tcp("+TiDBHost+":4000)/"+TiDBDB)
 
 	if err != nil {
 		panic(err)
