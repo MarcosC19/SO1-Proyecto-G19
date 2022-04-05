@@ -1,0 +1,12 @@
+/home/stevengez/Documentos/GitHub/SO1-Proyecto-G19/Fase2/APIs/Logs/target/rls/debug/deps/base64-c90ba65b54718cda.rmeta: /home/stevengez/.cargo/registry/src/github.com-1ecc6299db9ec823/base64-0.10.1/src/lib.rs /home/stevengez/.cargo/registry/src/github.com-1ecc6299db9ec823/base64-0.10.1/src/chunked_encoder.rs /home/stevengez/.cargo/registry/src/github.com-1ecc6299db9ec823/base64-0.10.1/src/display.rs /home/stevengez/.cargo/registry/src/github.com-1ecc6299db9ec823/base64-0.10.1/src/tables.rs /home/stevengez/.cargo/registry/src/github.com-1ecc6299db9ec823/base64-0.10.1/src/write/mod.rs /home/stevengez/.cargo/registry/src/github.com-1ecc6299db9ec823/base64-0.10.1/src/write/encoder.rs /home/stevengez/.cargo/registry/src/github.com-1ecc6299db9ec823/base64-0.10.1/src/encode.rs /home/stevengez/.cargo/registry/src/github.com-1ecc6299db9ec823/base64-0.10.1/src/decode.rs
+
+/home/stevengez/Documentos/GitHub/SO1-Proyecto-G19/Fase2/APIs/Logs/target/rls/debug/deps/base64-c90ba65b54718cda.d: /home/stevengez/.cargo/registry/src/github.com-1ecc6299db9ec823/base64-0.10.1/src/lib.rs /home/stevengez/.cargo/registry/src/github.com-1ecc6299db9ec823/base64-0.10.1/src/chunked_encoder.rs /home/stevengez/.cargo/registry/src/github.com-1ecc6299db9ec823/base64-0.10.1/src/display.rs /home/stevengez/.cargo/registry/src/github.com-1ecc6299db9ec823/base64-0.10.1/src/tables.rs /home/stevengez/.cargo/registry/src/github.com-1ecc6299db9ec823/base64-0.10.1/src/write/mod.rs /home/stevengez/.cargo/registry/src/github.com-1ecc6299db9ec823/base64-0.10.1/src/write/encoder.rs /home/stevengez/.cargo/registry/src/github.com-1ecc6299db9ec823/base64-0.10.1/src/encode.rs /home/stevengez/.cargo/registry/src/github.com-1ecc6299db9ec823/base64-0.10.1/src/decode.rs
+
+/home/stevengez/.cargo/registry/src/github.com-1ecc6299db9ec823/base64-0.10.1/src/lib.rs:
+/home/stevengez/.cargo/registry/src/github.com-1ecc6299db9ec823/base64-0.10.1/src/chunked_encoder.rs:
+/home/stevengez/.cargo/registry/src/github.com-1ecc6299db9ec823/base64-0.10.1/src/display.rs:
+/home/stevengez/.cargo/registry/src/github.com-1ecc6299db9ec823/base64-0.10.1/src/tables.rs:
+/home/stevengez/.cargo/registry/src/github.com-1ecc6299db9ec823/base64-0.10.1/src/write/mod.rs:
+/home/stevengez/.cargo/registry/src/github.com-1ecc6299db9ec823/base64-0.10.1/src/write/encoder.rs:
+/home/stevengez/.cargo/registry/src/github.com-1ecc6299db9ec823/base64-0.10.1/src/encode.rs:
+/home/stevengez/.cargo/registry/src/github.com-1ecc6299db9ec823/base64-0.10.1/src/decode.rs:
