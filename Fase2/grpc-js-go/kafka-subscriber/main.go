@@ -20,6 +20,8 @@ func ReadKafka() {
 		host = "localhost:9092"
 	}
 
+	fmt.Println(host)
+
 	// CONFIGURACION DEL LECTOR
 	conf := kafka.ReaderConfig{
 		Brokers:  []string{host},

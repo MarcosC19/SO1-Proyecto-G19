@@ -6,7 +6,7 @@ router.get('/', (req, res) => {
     return res.json({ 'response': 'Server running' })
 })
 
-router.post('/getResult', (req, res) => {
+router.post('/runGame', (req, res) => {
     const { game_id, players_game } = req.body
 
     client.Playing({ gameId: game_id, players: players_game }, function (err, response) {
