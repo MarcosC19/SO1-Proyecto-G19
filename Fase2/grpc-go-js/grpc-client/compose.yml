@@ -7,4 +7,4 @@ services:
         - gRPC_SERVER_PORT=50051
         - API_GO_PORT=5000
       ports:
-        - "5000:80"
+        - "80:5000"
