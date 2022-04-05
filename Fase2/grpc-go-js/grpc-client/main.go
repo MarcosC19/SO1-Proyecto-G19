@@ -5,9 +5,10 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
+	"os"
+
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
-	"os"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -37,11 +38,16 @@ func main() {
 	app := fiber.New()
 	app.Use(cors.New())
 	app.Post("/startGame", startGameRoute)
+	app.Get("/", apiTest)
 	err := app.Listen(fmt.Sprintf(":%s", getEnv(API_PORT_ENV, "5000")))
 	if err != nil {
 		fmt.Println("Error starting fiber server", err)
 		return
 	}
+}
+
+func apiTest(c *fiber.Ctx) error {
+	return c.Status(200).SendString("ok")
 }
 
 func startGameRoute(c *fiber.Ctx) error {
