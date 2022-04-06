@@ -1,64 +1,112 @@
+use std::borrow::Borrow;
 use actix_cors::Cors;
-use actix_web::{http, middleware, App, HttpServer};
+use actix_web::{get, http, web, App, HttpRequest, HttpResponse, HttpServer, Responder};
 use dotenv::dotenv;
-use mongodb::{options::ClientOptions, Client};
+use mongodb::{bson::doc, bson::Document, options::FindOptions};
+use mongodb::sync::{Client, Collection, Cursor};
+use serde::{Deserialize, Serialize};
 use std::env;
-use api_service::ApiService;
+use std::error::Error;
+use actix_web::http::StatusCode;
+use actix_web::web::Json;
+use futures::stream::TryStreamExt;
+use futures::{SinkExt, StreamExt};
 
-mod api_router;
-mod api_service;
-
-pub struct ServiceManager {
-    api: ApiService,
+#[derive(Debug, Serialize, Deserialize, Clone)]
+pub struct Log {
+    pub Game_id: i32,
+    pub Players: i32,
+    pub Game_name: String,
+    pub Winner: String,
+    pub Queue: String,
 }
 
-impl ServiceManager {
-    pub fn new(api: ApiService) -> Self {
-        ServiceManager { api }
+fn data_to_document(log: &Log) -> Document {
+    let Log {
+        Game_id,
+        Players,
+        Game_name,
+        Winner,
+        Queue,
+    } = log;
+
+    return doc! (
+        "Game_id": Game_id,
+        "Players": Players,
+        "Game_name":Game_name,
+        "Winner": Winner,
+        "Queue": Queue,
+    );
+}
+
+fn connect() -> Result<mongodb::sync::Client,mongodb::error::Error> {
+    let MongoHost = std::env::var("MONGO_HOST").unwrap();
+    let MongoUser = std::env::var("MONGO_USER").unwrap();
+    let MongoPass = std::env::var("MONGO_PASS").unwrap();
+    let ConnString = format!("mongodb://{}:{}@{}:27017/",MongoUser,MongoPass,MongoHost);
+
+    let client = Client::with_uri_str(ConnString)?;
+    return Ok(client);
+}
+
+fn results(collection: &Collection<Log>) -> Result<Cursor<Log>,mongodb::error::Error> {
+    let cursor = collection.find(None, None)?;
+    return Ok(cursor);
+}
+
+fn insertOne(collection: &Collection<Log>, log:Log) -> Result<String, mongodb::error::Error> {
+    let new_id = collection.insert_one(log, None)?;
+    return Ok(new_id.inserted_id.to_string());
+}
+
+#[get("/getLogs/")]
+async fn get_logs() -> impl Responder {
+    let MongoDb = std::env::var("MONGO_DB").unwrap();
+    let MongoCollection = std::env::var("MONGO_COLLECTION").unwrap();
+
+    let client = connect().unwrap();
+    let db = client.database(&MongoDb);
+    let collection = db.collection::<Log>(&MongoCollection);
+    let cursor = results(&collection).unwrap();
+    let mut results: Vec<Log> = Vec::new();
+    for value in cursor {
+        results.push(value.unwrap());
+    }
+
+    return HttpResponse::Ok().json(results);
+}
+
+fn set_default_env_var(key: &str, value: &str) {
+    if std::env::var(key).is_err() {
+        std::env::set_var(key, value);
     }
 }
 
-pub struct AppState {
-    service_manager: ServiceManager,
-}
+#[actix_web::main]
+async fn main() -> Result<(),std::io::Error>  {
+    // Set default Env variables
+    set_default_env_var("MONGO_HOST","Localhost");
+    set_default_env_var("MONGO_USER","root");
+    set_default_env_var("MONGO_PASS","Keyuser95");
+    set_default_env_var("MONGO_DB","SOPES");
+    set_default_env_var("MONGO_COLLECTION","Logs");
 
-#[actix_rt::main]
-async fn main() -> std::io::Result<()> {
     // Iniciar env
     dotenv().ok();
-
+    
     env::set_var("RUST_LOG", "actix_web=debug,actix_server=info");
     env_logger::init();
 
-    let MongoHost = env::var("MONGO_HOST").expect("MONGO HOST NOT SPECIFIED");
-    let client_options = ClientOptions::parse(&MongoHost).unwrap();
-
-    let client = Client::with_options(client_options).unwrap();
-
-    let MongoDB = env::var("MONGO_DB").expect("MONGO DB NOT SPECIFIED");
-    let Db = client.database(&MongoDB);
-
-    let MongoCollection = env::var("MONGO_COLLECTION").expect("MONGO COLLECTION NOT SPECIFIED");
-    let Collection = Db.collection(&MongoCollection);
-
-    let LocalServer = env::var("LOCALIP").expect("NO LOCAL IP SPECIFIED");
-
-    HttpServer::new(move || {
-        let user_service_worker = ApiService::new(MongoCollection.clone());
-        let service_manager = ServiceManager::new(user_service_worker);
-
-        let cors_mw = Cors::new()
+    HttpServer::new(|| {
+        let cors = Cors::default()
             .allowed_methods(vec!["GET","POST"])
-            .allowed_header(http::header::CONTENT_TYPE)
-            .finish();
+            .allowed_header(http::header::CONTENT_TYPE);
 
         App::new()
-            .wrap(cors_mw)
-            .wrap(middleware::Logger::default())
-            .data(AppState { service_manager })
-            .configure(api_router::init)
+            .wrap(cors)
+            .service(get_logs)
     })
-    .bind(LocalServer)?
+    .bind(("0.0.0.0",5000))?
     .run()
     .await
 }

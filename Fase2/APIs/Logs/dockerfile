@@ -1,5 +1,11 @@
 FROM rust:latest
 WORKDIR /
 COPY . .
+ENV MONGO_HOST localhost
+ENV MONGO_USER root
+ENV MONGO_PASS Keyuser95
+ENV MONGO_DB SOPES
+ENV MONGO_COLLECTION Logs
 RUN cargo build
+EXPOSE 5000
 CMD ["cargo","run"]
