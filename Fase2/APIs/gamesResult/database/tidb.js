@@ -1,11 +1,12 @@
 const mysql = require('mysql')
+require('dotenv').config()
 
 const connection = mysql.createConnection({
-    host: '35.184.247.210',
+    host: process.env.TIDB_IP,
     port: '4000',
-    user: 'grupo19',
-    password: 'grupo19-f2',
-    database: 'sopes1f2'
+    user: process.env.TIDB_USER,
+    password: process.env.TIDB_PASS,
+    database: process.env.TIDB_DB
 })
 
 connection.connect((err) => {

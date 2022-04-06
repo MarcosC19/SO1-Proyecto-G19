@@ -7,7 +7,21 @@ import NavBar from '../components/NavBar'
 export default function Redis(){
 
     useEffect(() => {
-        socketRedis.emit('results')
+        socketRedis.emit('lastTenGames')
+        socketRedis.on('lastTenGamesResult', (data) => {
+            console.log(data)
+        })
+
+        socketRedis.emit('bestPlayers')
+        socketRedis.on('bestPlayersResult', (data) => {
+            console.log(data)
+        })
+
+        socketRedis.emit('statsPlayer', 1)
+        socketRedis.on('statsPlayerResult', (data) => {
+            console.log(data)
+        })
+        
     }, [])
 
     return(
