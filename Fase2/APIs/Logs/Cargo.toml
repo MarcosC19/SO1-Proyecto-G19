@@ -13,13 +13,11 @@ features = ["sync"]
 
 [dependencies]
 actix-web = "4"
-actix-rt = "1"
 bson = "0.14.0"
 serde = "1.0.136"
 futures = "0.3.4"
 env_logger = "0.7"
 dotenv = "0.15.0"
 actix-cors = "0.6.1"
-serde_json = "1.0.79"
 
 

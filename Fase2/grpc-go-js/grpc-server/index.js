@@ -47,7 +47,7 @@ function getGame(id){
 function getGameName(id){
     switch(id){
         case 1:
-            return "Piedra,Papel o Tijeras";
+            return "Piedra, Papel o Tijeras";
         case 2:
             return "Cara o Cruz";
         case 3:
@@ -69,7 +69,7 @@ function startGame(call, callback){
         game_id: parseInt(call.request.gameid),
         players_num: parseInt(call.request.players),
         game_name: getGameName(call.request.gameid),
-        winner: String(winner),
+        winner: parseInt(winner),
         queue: "RabbitMQ"
     }
 

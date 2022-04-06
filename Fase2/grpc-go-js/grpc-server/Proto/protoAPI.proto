@@ -13,7 +13,7 @@ service localAPI {
 }
 
 message GameRequest {
-    int32 gameid = 1;
+    int32 game_id = 1;
     int32 players = 2;
 }
 

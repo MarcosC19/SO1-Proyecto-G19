@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
-	"strconv"
 	"time"
 
 	"go.mongodb.org/mongo-driver/mongo/readpref"
@@ -62,7 +61,7 @@ type Log struct {
 	Game_id   int32  `json:"game_id"`
 	Players   int32  `json:"players_num"`
 	Game_name string `json:"game_name"`
-	Winner    string `json:"winner"`
+	Winner    int32  `json:"winner"`
 	Queue     string `json:"queue"`
 }
 
@@ -120,6 +119,7 @@ func main() {
 func listenMessages(messages <-chan amqp.Delivery) {
 	for message := range messages {
 		var log Log
+		fmt.Println("Raw Message: ", string(message.Body))
 		err := json.Unmarshal(message.Body, &log)
 		if err != nil {
 			fmt.Println("Error marshalling", err)
@@ -131,13 +131,13 @@ func listenMessages(messages <-chan amqp.Delivery) {
 		fmt.Printf("# GameID: %d\n", log.Game_id)
 		fmt.Printf("# Players: %d\n", log.Players)
 		fmt.Printf("# GameName: %s\n", log.Game_name)
-		fmt.Printf("# Winner: %s\n", log.Winner)
+		fmt.Printf("# Winner: %d\n", log.Winner)
 		fmt.Printf("# Queue: %s\n", log.Queue)
 		fmt.Println("##########################")
 
-		saveToRedis(string(message.Body))
-		saveToMongo(log)
-		saveToTiDB(log)
+		go saveToRedis(string(message.Body))
+		go saveToMongo(log)
+		go saveToTiDB(log)
 	}
 }
 func saveToMongo(data Log) {
@@ -172,10 +172,20 @@ func saveToMongo(data Log) {
 
 func saveToRedis(data string) {
 	rdb := redis.NewClient(&redis.Options{
-		Addr:     fmt.Sprintf("%s:%s", RedisHost, RedisPort),
-		Password: "",
-		DB:       0,
+		Addr:        fmt.Sprintf("%s:%s", RedisHost, RedisPort),
+		Password:    "",
+		DB:          0,
+		DialTimeout: 3 * time.Second,
+		ReadTimeout: 3 * time.Second,
+		MaxRetries:  -1,
 	})
+
+	_, err := rdb.Ping(context.Background()).Result()
+
+	if err != nil {
+		fmt.Println("Connection to redis failed (timeout?)")
+		return
+	}
 
 	val, err := rdb.Do(context.Background(), "keys", "*").StringSlice()
 
@@ -198,7 +208,7 @@ func saveToRedis(data string) {
 }
 
 func saveToTiDB(logsData Log) {
-	db, err := sql.Open("mysql", TiDBUser+":"+TiDBPass+"@tcp("+TiDBHost+":4000)/"+TiDBDB)
+	db, err := sql.Open("mysql", TiDBUser+":"+TiDBPass+"@tcp("+TiDBHost+":4000)/"+TiDBDB+"?timeout=3s")
 
 	if err != nil {
 		fmt.Println("Error connecting to TiDB: ", err)
@@ -214,12 +224,7 @@ func saveToTiDB(logsData Log) {
 		return
 	}
 
-	w, err := strconv.Atoi(logsData.Winner)
-	if err != nil {
-		w = 0
-	}
-
-	insert.Exec(int(logsData.Game_id), int(logsData.Players), logsData.Game_name, int(w), logsData.Queue)
+	insert.Exec(int(logsData.Game_id), int(logsData.Players), logsData.Game_name, int(logsData.Winner), logsData.Queue)
 	fmt.Println("Nuevo log insertado en TiDB...")
 	defer insert.Close()
 }
