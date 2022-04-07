@@ -4,8 +4,6 @@ COPY . .
 
 RUN npm install
 
-ENV REACT_APP_IPAPI https://so1-proyecto-342902.uc.r.appspot.com
+EXPOSE 3000
 
 CMD ["npm", "run", "start"]
-
-EXPOSE 3000

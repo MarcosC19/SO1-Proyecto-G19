@@ -1,5 +1,5 @@
 import io from 'socket.io-client'
 
-let socketRedis = io(`${process.env.REACT_APP_IPAPI}/resultRedis`)
+let socketRedis = io(`https://so1-proyecto-342902.uc.r.appspot.com/resultRedis`)
 
 export default socketRedis
