@@ -74,7 +74,7 @@ async fn main() -> Result<(),std::io::Error>  {
     env_logger::init();
 
     HttpServer::new(|| {
-        let cors = Cors::default()
+        let cors = Cors::permissive()
             .allowed_methods(vec!["GET","POST"])
             .allowed_header(http::header::CONTENT_TYPE);
 
