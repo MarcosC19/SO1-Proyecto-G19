@@ -1,0 +1,74 @@
+[
+    {
+        "game_id": 1,
+        "players": 20
+    },
+    {
+        "game_id": 1,
+        "players": 40
+    },
+    {
+        "game_id": 2,
+        "players": 10
+    },
+    {
+        "game_id": 3,
+        "players": 10
+    },
+    {
+        "game_id": 5,
+        "players": 2
+    },
+    {
+        "game_id": 3,
+        "players": 27
+    },
+    {
+        "game_id": 1,
+        "players": 40
+    },
+    {
+        "game_id": 5,
+        "players": 5
+    },
+    {
+        "game_id": 1,
+        "players": 3
+    },
+    {
+        "game_id": 2,
+        "players": 22
+    },
+    {
+        "game_id": 3,
+        "players": 13
+    },
+    {
+        "game_id": 4,
+        "players": 24
+    },
+    {
+        "game_id": 4,
+        "players": 10
+    },
+    {
+        "game_id": 1,
+        "players": 8
+    },
+    {
+        "game_id": 2,
+        "players": 30
+    },
+    {
+        "game_id": 5,
+        "players": 25
+    },
+    {
+        "game_id": 1,
+        "players": 25
+    },
+    {
+        "game_id": 3,
+        "players": 23
+    }
+]
