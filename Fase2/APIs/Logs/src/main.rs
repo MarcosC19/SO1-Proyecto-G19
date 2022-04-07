@@ -56,15 +56,19 @@ fn set_default_env_var(key: &str, value: &str) {
 
 #[actix_web::main]
 async fn main() -> Result<(),std::io::Error>  {
+    // Iniciar env
+    dotenv().ok();
+
     // Set default Env variables
-    set_default_env_var("MONGO_HOST","34.121.79.118");
+    set_default_env_var("MONGO_HOST","10.128.0.20");
     set_default_env_var("MONGO_USER","admingrupo19");
     set_default_env_var("MONGO_PASS","so1-fase2");
     set_default_env_var("MONGO_DB","so-proyecto-f2");
     set_default_env_var("MONGO_COLLECTION","logs");
+    set_default_env_var("PORT","8080");
 
-    // Iniciar env
-    dotenv().ok();
+    let port = std::env::var("PORT").unwrap();
+    let iport:u16 = port.parse().unwrap();
     
     env::set_var("RUST_LOG", "actix_web=debug,actix_server=info");
     env_logger::init();
@@ -78,7 +82,7 @@ async fn main() -> Result<(),std::io::Error>  {
             .wrap(cors)
             .service(get_logs)
     })
-    .bind(("0.0.0.0",5000))?
+    .bind(("0.0.0.0",iport))?
     .run()
     .await
 }
