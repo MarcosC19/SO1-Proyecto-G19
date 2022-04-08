@@ -20,7 +20,7 @@ fn connect() -> Result<mongodb::sync::Client,mongodb::error::Error> {
     let mongo_user = std::env::var("MONGO_USER").unwrap();
     let mongo_pass = std::env::var("MONGO_PASS").unwrap();
     let conn_string = format!("mongodb://{}:{}@{}:27017/",mongo_user,mongo_pass,mongo_host);
-
+    println!("Connection String: {}",conn_string);
     let client = Client::with_uri_str(conn_string)?;
     return Ok(client);
 }
@@ -60,7 +60,7 @@ async fn main() -> Result<(),std::io::Error>  {
     dotenv().ok();
 
     // Set default Env variables
-    set_default_env_var("MONGO_HOST","10.128.0.20");
+    set_default_env_var("MONGO_HOST","34.122.108.75");
     set_default_env_var("MONGO_USER","admingrupo19");
     set_default_env_var("MONGO_PASS","so1-fase2");
     set_default_env_var("MONGO_DB","so-proyecto-f2");

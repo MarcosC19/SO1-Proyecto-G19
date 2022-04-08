@@ -1,7 +1,7 @@
 FROM rust:latest as build
 WORKDIR /
 COPY . .
-ENV MONGO_HOST 10.128.0.20
+ENV MONGO_HOST 34.122.108.75
 ENV MONGO_USER admingrupo19
 ENV MONGO_PASS so1-fase2
 ENV MONGO_DB so-proyecto-f2

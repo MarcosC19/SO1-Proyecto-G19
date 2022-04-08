@@ -79,12 +79,29 @@ export default function Logs(){
 
     useEffect(() => {
         fillData();
-        let updateTask = setInterval(fillData, 1000);
+        let updateTask = setInterval(fillData, 5000);
         
         return () => {
             clearInterval(updateTask);
         }
     },[]);
+
+    const getGameName = (gameID) => {
+        switch(gameID){
+            case "1":
+                return "Piedra, Papel o Tijeras";
+            case "2":
+                return "Numero Mayor";
+            case "3":
+                return "Numero Menor";
+            case "4":
+                return "Cara o Cruz";
+            case "5":
+                return "Ruleta";
+            default:
+                return "Desconocido";
+        }
+    }
 
     const fillData = () => {
         console.log("Fetching Logs Data");
@@ -97,17 +114,17 @@ export default function Logs(){
             // Set Chart of Top 3
             let topList = {};
             result.forEach((game) => {
-                if(topList[game.game_name] !== undefined){
-                    topList[game.game_name] = topList[game.game_name] + 1;
+                if(topList[game.game_id] !== undefined){
+                    topList[game.game_id] = topList[game.game_id] + 1;
                 }else{
-                    topList[game.game_name] = 1;
+                    topList[game.game_id] = 1;
                 }
             });
 
             let dotList_top = [];
             for(var key in topList){
                 let np = {
-                    y: parseInt(topList[key]), label: key
+                    y: parseInt(topList[key]), label: getGameName(key)
                 };
                 dotList_top.push(np);
             };
