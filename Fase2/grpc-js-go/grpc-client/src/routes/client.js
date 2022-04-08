@@ -7,9 +7,9 @@ router.get('/', (req, res) => {
 })
 
 router.post('/runGame', (req, res) => {
-    const { game_id, players_game } = req.body
+    const { game_id, players } = req.body
 
-    client.Playing({ gameId: game_id, players: players_game }, function (err, response) {
+    client.Playing({ gameId: game_id, players: players }, function (err, response) {
         if (err){
             res.status(400).json({'status': err})
         }

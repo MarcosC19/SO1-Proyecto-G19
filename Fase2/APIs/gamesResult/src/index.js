@@ -13,7 +13,8 @@ app.use(cors())
 app.use(require('./routes/router'))
 
 // starting server
-const server = app.listen(app.get('port'), () => {
+const server = app.listen(app.get('port'), async () => {
+    await clientRedis.connect()
     console.log(`Server on port ${app.get('port')}`)
 })
 
@@ -31,27 +32,41 @@ io.of('/resultRedis').on('connection', async (socket) => {
 
     // ULTIMOS 10 JUEGOS JUGADOS
     socket.on('lastTenGames', async () => {
-        await clientRedis.connect()
 
         let dataAux = []
 
         const result = await clientRedis.KEYS('*')
 
-        for await(let value of result) {
+        result.sort()
 
-            if (!value.includes('backup')){
-                
-                let data = await clientRedis.get(value)
+        let contadorBack = 0
 
+        while (result[0].includes('backup')) {
+            result.shift()
+            contadorBack++
+            if (result.length == 0){
+                break;
+            }
+        }
+
+        console.log(result)
+
+        for (let i = contadorBack; i < result.length + contadorBack; i++) {
+
+            let data = await clientRedis.get(`result${i}`)
+
+            if (data != null){
                 let jsonData = JSON.parse(data)
-
+    
                 dataAux.push(jsonData)
             }
         }
 
+
         while (dataAux.length > 10) {
             dataAux.shift()
         }
+        dataAux.reverse()
 
         socket.emit('lastTenGamesResult', dataAux)
     });
@@ -63,10 +78,10 @@ io.of('/resultRedis').on('connection', async (socket) => {
 
         const result = await clientRedis.KEYS('*')
 
-        for await(let value of result) {
+        for await (let value of result) {
 
-            if (!value.includes('backup')){
-                
+            if (!value.includes('backup')) {
+
                 let data = await clientRedis.get(value)
 
                 let jsonData = JSON.parse(data)
@@ -77,39 +92,41 @@ io.of('/resultRedis').on('connection', async (socket) => {
 
         let dataAux2 = []
 
-        for await(let value of dataAux){
+        for await (let value of dataAux) {
             let victorys = 1
-            for await(let value2 of dataAux2){
-                if (value2.winner == value.winner){
-                    victorys ++;
+            for await (let value2 of dataAux2) {
+                if (value2.winner == value.winner) {
+                    victorys++;
                 }
             }
-            
+
             let jsonAux = {
                 'winner': value.winner,
                 'victorias': victorys
             }
 
-            dataAux2.push(jsonAux)            
+            dataAux2.push(jsonAux)
         }
 
         let dataFinal = []
-        for await(let value of dataAux2){
+        for await (let value of dataAux2) {
             let aux = value
-            for await(let value2 of dataAux2){
-                if (value.winner == value2.winner && value2.victorias > value.victorias){
+            for await (let value2 of dataAux2) {
+                if (value.winner == value2.winner && value2.victorias > value.victorias) {
                     aux = value2
                 }
             }
-            
-            if (!dataFinal.includes(aux)){
+
+            if (!dataFinal.includes(aux)) {
                 dataFinal.push(aux)
             }
         }
 
-        dataFinal.sort((a,b) => {
+        dataFinal.sort((a, b) => {
             return b.victorias - a.victorias
         })
+
+        console.log(dataFinal)
 
         while (dataFinal.length > 10) {
             dataFinal.pop()
@@ -124,10 +141,10 @@ io.of('/resultRedis').on('connection', async (socket) => {
 
         const result = await clientRedis.KEYS('*')
 
-        for await(let value of result) {
+        for await (let value of result) {
 
-            if (!value.includes('backup')){
-                
+            if (!value.includes('backup')) {
+
                 let data = await clientRedis.get(value)
 
                 let jsonData = JSON.parse(data)
@@ -138,19 +155,19 @@ io.of('/resultRedis').on('connection', async (socket) => {
 
         let dataFinal = []
 
-        for await(let value of dataAux){
-            if (value.winner == player){
+        for await (let value of dataAux) {
+            if (value.winner == player) {
                 let jsonData = {
-                    'id': 'id' + (new Date()).getTime(), 
-                    'game_name': value.game_name, 
+                    'id': 'id' + (new Date()).getTime(),
+                    'game_name': value.game_name,
                     'winner': value.winner,
                     'resultado': 'Ganador'
                 }
                 dataFinal.push(jsonData)
-            } else{
+            } else {
                 let jsonData = {
-                    'id': 'id' + (new Date()).getTime(), 
-                    'game_name': value.game_name, 
+                    'id': 'id' + (new Date()).getTime(),
+                    'game_name': value.game_name,
                     'winner': player,
                     'resultado': 'Perdedor'
                 }
@@ -160,19 +177,18 @@ io.of('/resultRedis').on('connection', async (socket) => {
 
         socket.emit('statsPlayerResult', dataFinal)
 
-        await clientRedis.disconnect()
     });
 })
 
 // web socket tiDB
 io.of('/resultTiDB').on('connection', async (socket) => {
     console.log(`Nueva conexion para TiDB con ${socket.id}`)
-    
+
     // ULTIMOS 10 JUEGOS JUGADOS
     socket.on('lastTenGames', async () => {
         connection.query(
             `SELECT 
-                id, game_id, game_name
+                id, game_id, game_name, winner
             FROM
                 fase2
             ORDER BY id DESC
@@ -180,7 +196,7 @@ io.of('/resultTiDB').on('connection', async (socket) => {
             (err, result) => {
                 if (err) {
                     socket.emit('Error', err)
-                } else{
+                } else {
                     socket.emit('lastTenGamesResult', result)
                 }
             }
@@ -191,7 +207,7 @@ io.of('/resultTiDB').on('connection', async (socket) => {
     socket.on('bestPlayers', async () => {
         connection.query(
             `SELECT 
-                winner, COUNT(winner) AS 'Victorias'
+                winner, COUNT(winner) AS 'victorias'
             FROM
                 fase2
             GROUP BY winner
@@ -200,7 +216,7 @@ io.of('/resultTiDB').on('connection', async (socket) => {
             (err, result) => {
                 if (err) {
                     socket.emit('Error', err)
-                } else{
+                } else {
                     socket.emit('bestPlayersResult', result)
                 }
             }
@@ -226,10 +242,27 @@ io.of('/resultTiDB').on('connection', async (socket) => {
             (err, result) => {
                 if (err) {
                     socket.emit('Error', err)
-                } else{
+                } else {
                     socket.emit('statsPlayerResult', result)
                 }
             }
         )
     });
+
+    socket.on('players', async () => {
+        connection.query(
+            `SELECT DISTINCT
+                winner
+            FROM
+                fase2
+            ORDER BY winner ASC;`,
+            (err, result) => {
+                if (err) {
+                    socket.emit('Error', err)
+                } else {
+                    socket.emit('totalPlayers', result)
+                }
+            }
+        )
+    })
 })
