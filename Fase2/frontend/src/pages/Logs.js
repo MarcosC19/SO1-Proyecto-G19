@@ -1,4 +1,4 @@
-import React,{useRef, useState, useEffect} from 'react';
+import React,{ useState, useEffect } from 'react';
 import '../css/Logs.css';
 import DataTable from 'react-data-table-component';
 import NavBar from '../components/NavBar';
