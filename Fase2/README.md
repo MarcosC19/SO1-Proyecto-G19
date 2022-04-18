@@ -1,6 +1,6 @@
 # SO1 Proyecto Fase 2
 
-![image](./Fase2/img/home.png)
+![image](./img/home.png)
 
 El siguiente proyecto es un simulador de juegos.
 
@@ -15,16 +15,16 @@ La informacion se obtiene cada vez que se accede a la pagina, donde podremos vis
 
 Todos estos reportes se obtienen de la base de datos Redis que se encuentra en una instancia de Compute Engine.
 
-![image](./Fase2/img/redis.png)
+![image](./img/redis.png)
 
 ### Reporte de [TiDB](https://so1-proyecto-fase2-4waihun6ya-uc.a.run.app/resultsTiDB): 
 La informacion se obtiene cada vez que se accede a la pagina, donde podremos visualizar los ultimos 10 juegos que han sido ejecutados, los mejores jugadores que seran quienes han ganado mas juegos y por ultimo las estadisticas de un jugador en especifico donde se podra ver si ha ganado o perdido en todos los juegos ejecutados.
 
 Todos estos reportes se obtienen de la base de datos TiDB que se encuentra en una instancia de Compute Engine.
 
-![image](./Fase2/img/tidb.png)
+![image](./img/tidb.png)
 
 ### Historial o [Logs](https://so1-proyecto-fase2-4waihun6ya-uc.a.run.app/logs): 
 Cada solicitud de los juegos ejecutados se ira por diferente ruta, por lo cual para poder saber por que ruta se ha simulado un juego se podra visualizar de manera grafica por cual de las rutas se ha dirigido la peticion, junto con mas informacion que puede ser de utilidad.
 
-![image](./Fase2/img/logs.png)
+![image](./img/logs.png)
