@@ -1,70 +1,41 @@
-# Getting Started with Create React App
+# FrontEnd
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+El frontend esta implementado usando NodeJS y React y montado en una instancia de Google Cloud Run
 
-## Available Scripts
+Para implementarlo se hace google cloud tiene la facilidad de recibir como entrada un repositorio que contenga la informacion necesaria para crear un contenedor de docker que posteriormente se usara para ejecutar la instancia
 
-In the project directory, you can run:
+Junto con la informacion de la webapp se utiliza un dockerfile de "double stage" de la siguiente manera:
 
-### `npm start`
+```docker
+# STEP 1 - BUILD OF REACT PROJECT
+FROM node:16-alpine as build
+WORKDIR /app
+COPY . .
+RUN npm install
+RUN npm run build
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+# STEP 2 - CREATE NGINX SERVER
+FROM nginx:alpine
+COPY --from=build /app/build /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+El comando npm install instala todas las dependencias necesarias para correr el frontend incluidas las librerias de **socket.io-client**, **canvasjs**, **uuid**, **reactstrap** y **react** mismo con sus dependencias
 
-### `npm test`
+Se utiliza una version alpine de NodeJS para reducir el tamano del contenedor.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Se utilizan algunos componentes para ahorrar la escritura de codigo y no tener redundancia, los componentes utilizados son:
 
-### `npm run build`
+- [lastGames.js](./src/components/lastGames.js), componente donde se renderizan los ultimos 10 juegos.
+- [bestPlayers.js](./src/components/bestPlayers.js), componente donde se renderizan los mejores jugadores.
+- [statsPlayer.js](./src/components/statsPlayer.js), componente donde se renderizan las estadisticas de un jugador.
+- [Canvas](./src/components/Canvas), componente donde se renderizan los logs de cada juego ejecutado.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Se crearon 4 paginas, en las cuales se iran mostrando cada uno de los componentes con sus respectivos reportes, las paginas creadas son:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- [Home](./src/pages/Home.js), pagina donde se visualizan los datos del grupo.
+- [Logs](./src/pages/Logs.js), pagina donde se visualizan los logs que se obtienen de mongoDB.
+- [Redis](./src/pages/Redis.js), pagina donde se visualizan los reportes de juegos obtenidos de redisDB.
+- [TiDB](./src/pages/TiDB.js), pagina donde se visualizan los reportes de juegos obtenidos de TiDB.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
