@@ -7,6 +7,10 @@ Para la implementacion se realizo una imagen y contenedor con el compilado de Ru
 
 La imagen se almacena en Google Cloud Registry para su posterior uso en cloud run
 
+## Como usar
+
+Para consumir la API debe hacerse una solicitud GET a la ruta **/getLogs**
+
 
 ## Como construir 
 El build de la imagen se encuentra en el dockerfile, es un build en dos pasos, primero se instalan todas las dependencias y se compila el ejecutable

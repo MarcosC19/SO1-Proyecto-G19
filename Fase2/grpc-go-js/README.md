@@ -75,3 +75,30 @@ services:
       - TiDB_PORT=grupo19-f2
       - TiDB_DB=sopes1f2
 ```
+
+## Servidor
+
+El servidor esta implementado en NodeJS, para su ejecucion basta instalar las dependencias con el comando:
+
+```bash
+npm install
+```
+
+Y para ejecutarlo:
+
+```bash
+node index.js
+```
+
+## Subscriber
+
+Para poder procesar las solicitudes e ingresarlas a las diferentes DB se utiliza un subscriber en Go, este se encarga de escuchar nuevos mensajes en un queue asignado para luego enviarlos a las diferentes bases de datos con la siguiente estructura: 
+
+```javascript
+{
+    game_id: Number,
+    players: Number,
+    game_name: String,
+    winner: Number
+}
+```
