@@ -2,10 +2,10 @@ package main
 
 import (
 	"context"
-	"encoding/json"
 	"flag"
 	"fmt"
 	"os"
+	"strconv"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -37,7 +37,7 @@ func main() {
 	fmt.Printf("API server running on port %s", getEnv(API_PORT_ENV, "5000"))
 	app := fiber.New()
 	app.Use(cors.New())
-	app.Post("/runGame", startGameRoute)
+	app.Post("/gameid/:gameid/players/:players", startGameRoute)
 	app.Get("/", apiTest)
 	err := app.Listen(fmt.Sprintf(":%s", getEnv(API_PORT_ENV, "5000")))
 	if err != nil {
@@ -52,7 +52,20 @@ func apiTest(c *fiber.Ctx) error {
 
 func startGameRoute(c *fiber.Ctx) error {
 	var request pb.GameRequest
-	json.Unmarshal(c.Body(), &request)
+	gi, err := strconv.Atoi(c.Params("gameid"))
+	if err != nil {
+		gi = 1
+	}
+
+	py, err := strconv.Atoi(c.Params("players"))
+	if err != nil {
+		py = 10
+	}
+
+	request.GameId = int32(gi)
+	request.Players = int32(py)
+	//json.Unmarshal(c.Body(), &request)
+
 	result := startGame(request)
 
 	if result != -1 {
