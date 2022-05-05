@@ -1,0 +1,15 @@
+FROM rust:latest as build
+WORKDIR /
+COPY . .
+ENV MONGO_HOST 35.239.252.69
+ENV MONGO_USER admin-g19
+ENV MONGO_PASS so1-fase3
+ENV MONGO_DB so1-proyecto-f3
+ENV MONGO_COLLECTION logs
+RUN cargo build
+
+FROM debian:bullseye-slim
+WORKDIR /
+COPY --from=build ./target/debug/api ./
+EXPOSE 8080
+CMD ["./api"]

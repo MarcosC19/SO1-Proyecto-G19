@@ -1,0 +1,11 @@
+FROM node:16-alpine
+WORKDIR /
+COPY . .
+RUN npm install
+ENV TIDB_IP 35.184.6.101
+ENV TIDB_USER grupo19
+ENV TIDB_PASS grupo19-f3
+ENV TIDB_DB sopes1fase3
+ENV REDIS_IP 34.123.208.12
+EXPOSE 8080
+CMD ["npm","start"]
