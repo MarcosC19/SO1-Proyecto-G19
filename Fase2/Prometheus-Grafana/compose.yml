@@ -13,9 +13,10 @@ services:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
   mongo_exporter:
     image: percona/mongodb_exporter:0.31.2
-    command: --mongodb.uri=mongodb://mongodb_exporter1:so1-fase2@10.128.0.20:27017 --groups.enabled 'asserts,durability,background_flusshing,connections,extra_info,global_lock,index_counters,network,op_counters,op_counters_repl,memory,locks,metrics'
+    command: --mongodb.uri=mongodb://admingrupo19:so1-fase2@10.128.0.34:27017 --groups.enabled 'asserts,durability,background_flusshing,connections,extra_info,global_lock,index_counters,network,op_counters,op_counters_repl,memory,locks,metrics'
     ports:
       - 9216:9216
 
-  #docker run -d -p 9121:9121 -e REDIS_ADDR=10.128.0.21:6379 -e REDIS_USER=null -e REDIS_PASSWORD=null --name redis_exporter oliver006/redis_exporter
+# Run Redis Exporter
+#docker run -d -p 9121:9121 -e REDIS_ADDR=10.128.0.21:6379 -e REDIS_USER=null -e REDIS_PASSWORD=null --name redis_exporter oliver006/redis_exporter
     
