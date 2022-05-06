@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: despliegue-pod-rabbit
+  namespace: squidgame
+  labels:
+    app: despliegue-pod-rabbit
+spec:
+  selector:
+    matchLabels:
+      app: despliegue-pod-rabbit
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: despliegue-pod-rabbit
+    spec:
+      hostname: proyectof3-host-rabbit
+      containers:
+        - name: rabbit
+          image: rabbitmq:management-alpine
+          ports:
+            - containerPort: 15672
+            - containerPort: 5672
+        - name: grpc-client-rabbit
+          image: rocket1530/grpc_client_rabbit
+          env:
+          - name: SERVER_NODE_PATH
+            value: "proyectof3-host-rabbit:50051"
+          - name: GO_CLIENT_PORT
+            value: "8080"
+          ports:
+            - containerPort: 8080
+        - name: grpc-server-rabbit
+          image: rocket1530/grpc_server_rabbit
+          env:
+          - name: HOSTNAME_RABBIT
+            value: "proyectof3-host-rabbit"
+          - name: PORT_RABBIT
+            value: "5672"
+          - name: USERNAME_RABBIT
+            value: "guest"
+          - name: PASSWORD_RABBIT
+            value: "guest"
+          ports:
+            - containerPort: 50051
+        - name: subscriber_rabbit
+          image: rocket1530/grpc_server_rabbit
+          env:
+            - name: MONGO_DIRECTION
+              value: "mongodb://admin-g19:so1-fase3@35.232.34.17:27017"
+            - name: REDIS_DIRECTION
+              value: "34.122.245.240"
+            - name: TIDB_CONNECTION
+              value: "grupo19:grupo19-f3@tcp(34.123.254.28:4000)/sopes1fase3"
+            - name: RABBIT_DIRECTION
+              value: "proyectof3-host-rabbit"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-ruta-rabbit
+  namespace: squidgame
+  labels:
+    app: despliegue-pod-rabbit
+spec:
+  type: ClusterIP
+  selector:
+    app: despliegue-pod-rabbit
+  ports:
+    - port: 8080
+      targetPort: 8080
+      protocol: TCP

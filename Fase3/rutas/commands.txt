@@ -1,0 +1,2 @@
+gcloud config set compute/zone us-central1-a
+gcloud container clusters create k8s-demo --num-nodes=3 --tags=allin,allout --machine-type=n1-standard-2 --no-enable-network-policy

@@ -1,0 +1,65 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: squidgame
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: despliegue-pod-kafka
+  namespace: squidgame
+  labels:
+    app: despliegue-pod-kafka
+spec:
+  selector:
+    matchLabels:
+      app: despliegue-pod-kafka
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: despliegue-pod-kafka
+    spec:
+      hostname: proyectof3-host-kafka
+      containers:
+        - name: grpc-cliente-kafka
+          image: rocket1530/grpc_client_kafka
+          env:
+          - name: IP_SERVER
+            value: "proyectof3-host-kafka"
+          ports:
+            - containerPort: 8080
+        - name: grpc-servidor-kafka
+          image: rocket1530/grpc_server_kafka
+          env:
+          - name: HOSTIP_KAFKA
+            value: "my-cluster-kafka-bootstrap.kafka"
+          ports:
+            - containerPort: 50051
+        - name: subscriber-kafka
+          image: rocket1530/subscriber_kafka
+          env:
+          - name: HOSTIP_KAFKA
+            value: "my-cluster-kafka-bootstrap.kafka"
+          - name: HOSTIP_MONGO
+            value: 
+          - name: HOSTIP_REDIS
+            value: 
+          - name: HOSTIP_TIDB
+            value: 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-ruta-kafka
+  namespace: squidgame
+  labels:
+    app: despliegue-pod-kafka
+spec:
+  type: ClusterIP
+  selector:
+    app: despliegue-pod-kafka
+  ports:
+    - port: 8080
+      targetPort: 8080
+      protocol: TCP

@@ -1,0 +1,23 @@
+FROM node:17-alpine3.14
+WORKDIR /app
+
+# install app dependencies
+COPY package.json ./
+COPY package-lock.json ./
+RUN npm install
+#RUN npm install --silent
+#RUN npm install react-scripts@3.4.1 -g --silent
+ENV HOSTNAME_RABBIT=host.docker.internal
+ENV PORT_RABBIT=5672
+ENV USERNAME_RABBIT=guest
+ENV PASSWORD_RABBIT=guest
+
+# add app
+COPY . ./
+EXPOSE 50051
+
+# start app
+CMD ["node", "main.js"]
+
+#docker build -t rocket1530/grpc_server_rabbit .
+#docker run -d -p 50051:50051 --name server -e HOSTNAME_RABBIT=35.238.6.126 rocket1530/server

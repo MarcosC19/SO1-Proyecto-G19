@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "io.grpc.examples.game";
+option java_outer_classname = "GameProto";
+option objc_class_prefix = "HLW";
+
+package game;
+
+service ExecuteGame {
+  rpc PlayGame (GameRequest) returns (GameReply) {}
+}
+
+message GameRequest {
+  int32 gameid = 1;
+  int32 players = 2;
+}
+
+message GameReply {
+  string response = 1;
+}
