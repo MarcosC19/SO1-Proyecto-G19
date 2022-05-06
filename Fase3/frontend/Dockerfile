@@ -10,14 +10,4 @@ ENV REACT_APP_RUST_API_HOST games-logs
 
 RUN npm install
 
-RUN npm run build
-
-# STEP 2 - CREATE NGINX SERVER
-
-FROM nginx:alpine
-
-COPY --from=build /app/build /usr/share/nginx/html
-
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["npm", "start"]
