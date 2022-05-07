@@ -11,6 +11,16 @@ helm repo update
 
 helm install nginx-ingress ingress-nginx/ingress-nginx -n nginx-ingress
 
+# INSTALACION CHASO MESH
+curl -sSL https://mirrors.chaos-mesh.org/v2.1.5/install.sh | bash
+
+	## Verification:
+	kubectl get po -n chaos-testing
+
+	## Acceder al dashboard
+	kubectl port-forward -n chaos-testing svc/chaos-dashboard 2333:2333
+
+
 # INSTALACION LINKERD
 curl --proto '=https' --tlsv1.2 -sSfL https://run.linkerd.io/install | sh
 export PATH=$PATH:/home/stevengez/.linkerd2/bin
