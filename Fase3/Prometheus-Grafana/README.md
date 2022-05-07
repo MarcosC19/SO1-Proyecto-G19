@@ -12,15 +12,15 @@ services:
       - 80:3000
   prometheus:
     depends_on: 
-      - "mongo_exporter"
+      - "mongoexporter"
     image: bitnami/prometheus
     ports:
       - 9090:9090
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
-  mongo_exporter:
+  mongoexporter:
     image: percona/mongodb_exporter:0.31.2
-    command: --mongodb.uri=mongodb://mongodb_exporter1:so1-fase2@10.128.0.20:27017 --groups.enabled 'asserts,durability,background_flusshing,connections,extra_info,global_lock,index_counters,network,op_counters,op_counters_repl,memory,locks,metrics'
+    command: -mongodb.uri=mongodb://admin-g19:so1-fase3@10.128.0.34:27017'
     ports:
       - 9216:9216
 ```
