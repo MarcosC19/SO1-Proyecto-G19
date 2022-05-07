@@ -1,0 +1,34 @@
+services:
+  grafana:
+    image: grafana/grafana
+    ports:
+      - 80:3000
+  prometheus:
+    depends_on:
+      - "mongo_exporter"
+    image: bitnami/prometheus
+    ports:
+      - 8080:9090
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+  mongo_exporter:
+    image: percona/mongodb_exporter:0.31.2
+    command: --mongodb.uri=mongodb://mongodb_exporter1:so1-fase2@10.128.0.20:27017
+    ports:
+      - 9216:9216
+
+docker run -d -p 9216:9216 --name mongo_exporter percona/mongodb_exporter:0.31.2 --mongodb.uri=mongodb://mongodb_exporter:password@10.128.0.20
+
+use admin
+db.createUser(
+  {
+    user: "mongodb_exporter2",
+    pwd: "so1-fase2",
+    roles: [
+        { role: "clusterMonitor", db: "admin" },
+        { role: "clusterMonitor", db: "so-proyecto-f2" },
+        { role: "read", db: "local" },
+        { role: "read", db: "so-proyecto-f2" }
+    ]
+  }
+)

@@ -78,7 +78,7 @@ func main() {
 	time.Sleep(15 * time.Second)
 
 	// Start the RabbitMQ connection using credentials
-	conn, err := amqp.Dial(fmt.Sprintf("amqp://%s:%s@%s:%s", RabbitUser, RabbitPass, RabbitHost, RabbitPort))
+	conn, err := amqp.Dial(fmt.Sprintf("amqp://%s:%s@%s", RabbitUser, RabbitPass, RabbitHost))
 
 	if err != nil {
 		fmt.Println("Error connecting to Rabbit", err)

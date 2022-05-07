@@ -55,6 +55,8 @@ func main() {
 	commandReader := bufio.NewReader(os.Stdin)
 	fmt.Println(PROCESS_START)
 	for {
+		SUCCESS = 0
+		FAILED = 0
 		input, _, err := commandReader.ReadLine()
 		if err != nil {
 			fmt.Println("# Error parsing the command: ", err)

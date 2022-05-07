@@ -1,0 +1,8 @@
+Installation:
+curl -sSL https://mirrors.chaos-mesh.org/v2.1.5/install.sh | bash
+
+Verification:
+kubectl get po -n chaos-testing
+
+Access Dashboard
+kubectl port-forward -n chaos-testing svc/chaos-dashboard 2333:2333
