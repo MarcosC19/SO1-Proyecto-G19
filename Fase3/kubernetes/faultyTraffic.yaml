@@ -6,7 +6,32 @@ metadata:
 spec:
   service: svc-ruta-rabbit
   backends:
+  # 50 Rabbit - 50 Kafka
   - service: svc-ruta-rabbit
     weight: 500m
   - service: svc-ruta-kafka
     weight: 500m
+
+  # 50 Rabbit - 50 Faulty
+  #- service: svc-ruta-rabbit
+  #  weight: 500m
+  #- service: error-injector
+   # weight: 500m
+
+  # 50 Kakfa - 50 Faulty
+  #- service: svc-ruta-kafka
+  #  weight: 500m
+  #- service: error-injector
+   # weight: 500m
+
+  # 100 Kakfa - 0 Faulty
+  #- service: svc-ruta-kafka
+  #  weight: 1000m
+  #- service: error-injector
+   # weight: 000m
+
+  # 100 Rabbit - 0 Faulty
+  #- service: svc-ruta-rabbit
+  #  weight: 1000m
+  #- service: error-injector
+   # weight: 000m
