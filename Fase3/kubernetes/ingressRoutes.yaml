@@ -1,0 +1,29 @@
+--- # INGRESS CONTROLLER
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: squidgame
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/service-upstream: "true"
+  namespace: squidgame
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: "35.188.214.34.nip.io" # MODIFICAR
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: svc-ruta-kafka
+            port:
+              number: 8080
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: svc-ruta-rabbit
+            port:
+              number: 8080

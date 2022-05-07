@@ -142,7 +142,7 @@ func getQuery(game Game) string {
 	game_name := game.Name
 	winner := strconv.FormatInt(int64(game.Winner), 10)
 	queue := game.Queue
-	return "INSERT INTO sopes1fase3 (game_id, players, game_name, winner, queue) VALUES (" + gameid + "," + players + ",\"" + game_name + "\"," + winner + ",\"" + queue + "\");"
+	return "INSERT INTO reportes (game_id, players, game_name, winner, queue) VALUES (" + gameid + "," + players + ",\"" + game_name + "\"," + winner + ",\"" + queue + "\");"
 }
 
 func sendToMongo(game Game) {

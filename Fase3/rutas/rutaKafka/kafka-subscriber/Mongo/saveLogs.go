@@ -12,8 +12,8 @@ import (
 
 const (
 	port     = 27017
-	user     = "admingrupo19"
-	password = "so1-fase2"
+	user     = "admin-g19"
+	password = "so1-fase3"
 )
 
 // JSON PARA RECIBIR DE KAFKA
@@ -49,7 +49,7 @@ func SaveLogs(logsData Logs) {
 	fmt.Println("Conexion exitosa")
 
 	// CONNECTION TO DATABASE AND COLLECTION
-	collection := client.Database("so-proyecto-f2").Collection("logs")
+	collection := client.Database("so1-proyecto-f3").Collection("logs")
 
 	// INSERT THE NEW OPERATION
 	insertResult, err := collection.InsertOne(context.TODO(), logsData)

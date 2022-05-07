@@ -25,6 +25,11 @@ kubectl get -n nginx-ingress deploy nginx-ingress-ingress-nginx-controller -o ya
 | linkerd inject - \
 | kubectl apply -f -
 
+# INSTALACION DE KAFKA
+kubectl create namespace kafka
+kubectl create -f 'https://strimzi.io/install/latest?namespace=kafka' -n kafka
+kubectl apply -f createKafka.yaml
+
 # CREACION NAMESPACE
 kubectl create namespace squidgame --dry-run=client -o yaml > configInit.yaml
 
@@ -45,4 +50,3 @@ kubectl create deploy frontend --image=curtex19/frontend-f3 --replicas=1 --names
 
 # CREACION CLUSTERIP FRONTEND
 kubectl expose deploy/frontend --type=ClusterIP --port=3000 --namespace=squidgame --dry-run=client -o yaml >> configReports.yaml
-

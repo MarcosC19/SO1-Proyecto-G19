@@ -9,5 +9,5 @@ ENV RABBIT_DIRECTION=host.docker.internal
 
 CMD ["go","run","main.go"]
 
-#docker build -t rocket1530/subscriber_rabbit .
+#docker build -t rocket1530/subscriber_rabbit2 .
 #docker run -d --name subscriber -e RABBIT_DIRECTION=35.238.6.126 rocket1530/subscriber

@@ -11,7 +11,7 @@ import (
 func SavetiDB(logsData Mongo.Logs) {
 	host := os.Getenv("HOSTIP_TIDB")
 
-	db, err := sql.Open("mysql", "grupo19:grupo19-f2@tcp("+host+":4000)/sopes1f2")
+	db, err := sql.Open("mysql", "grupo19:grupo19-f3@tcp("+host+":4000)/sopes1fase3")
 
 	if err != nil {
 		panic(err)
@@ -19,7 +19,7 @@ func SavetiDB(logsData Mongo.Logs) {
 
 	defer db.Close()
 
-	insert, err := db.Prepare("INSERT INTO fase2(game_id, players, game_name, winner, queue) VALUES(?, ?, ?, ?, ?)")
+	insert, err := db.Prepare("INSERT INTO reportes (game_id, players, game_name, winner, queue) VALUES(?, ?, ?, ?, ?)")
 
 	if err != nil {
 		panic(err.Error())

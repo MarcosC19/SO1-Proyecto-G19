@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"strconv"
 
 	"github.com/MarcosC19/SO1-Practica2-201900874/grpc-server/Games/Game1"
 	"github.com/MarcosC19/SO1-Practica2-201900874/grpc-server/Games/Game2"
@@ -35,24 +36,24 @@ func (s *server) Playing(ctx context.Context, in *pb.GameRequest) (*pb.GameReply
 
 	switch in.GetGameId() {
 	case 1:
-		game_name = "odd-players"
+		game_name = "Piedra, Papel o Tijeras"
 		winner = Game1.Rps(int(in.GetPlayers()))
 	case 2:
-		game_name = "pair-players"
+		game_name = "Cara o Cruz"
 		winner = Game2.Flip(int(in.GetPlayers()))
 	case 3:
-		game_name = "last-one"
+		game_name = "Numero mayor"
 		winner = Game3.BigBrother(int(in.GetPlayers()))
 	case 4:
-		game_name = "middle-winner"
+		game_name = "Numero menor"
 		winner = Game4.SmallBrother(int(in.GetPlayers()))
 	case 5:
-		game_name = "random"
+		game_name = "Ruleta"
 		winner = Game5.Roulette(int(in.GetPlayers()))
 	}
 	kafkaprod.SendKafka(in.GameId, in.Players, game_name, int32(winner))
-
-	return &pb.GameReply{GameId: in.GameId, Players: in.Players, GameName: game_name, Winner: int32(winner)}, nil
+	stringValue := strconv.FormatInt(int64(in.GameId), 10)
+	return &pb.GameReply{GameId: in.GameId, Players: in.Players, GameName: "Success game " + stringValue, Winner: int32(winner)}, nil
 }
 
 func main() {

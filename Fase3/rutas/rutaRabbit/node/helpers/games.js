@@ -3,7 +3,7 @@ const { sendToRabbit } = require("./rabbitConnection");
 
 // El ganador se elige random
 const game1 = async (players) => {
-  const game_name = "random";
+  const game_name = "Piedra, Papel o Tijeras";
   let winner = random(1, players);
   const result = await sendLog(1, players, game_name, winner);
   if (result === -1) return "Error in game1";
@@ -12,7 +12,7 @@ const game1 = async (players) => {
 
 // El ganador siempre es el ultimo jugador
 const game2 = async (players) => {
-  const game_name = "last-one";
+  const game_name = "Cara o Cruz";
   const result = await sendLog(2, players, game_name, players);
   if (result === -1) return "Error in game2";
   return "Success game2";
@@ -20,7 +20,7 @@ const game2 = async (players) => {
 
 // Siempre gana el jugador que corresponde a la mitad del total de jugadores, si es impar se redondea
 const game3 = async (players) => {
-  const game_name = "middle-winner";
+  const game_name = "Numero mayor";
   let winner;
   if (players % 2 === 0) {
     winner = players / 2;
@@ -34,7 +34,7 @@ const game3 = async (players) => {
 
 // El ganador se elige de manera aleatoria únicamente en los números pares
 const game4 = async (players) => {
-  const game_name = "pair-players";
+  const game_name = "Numero menor";
   let arr = [];
   for(let i = 1; i <= players; i++){
       if(i%2===0) arr.push(i)
@@ -47,7 +47,7 @@ const game4 = async (players) => {
 
 // El ganador se elige de manera aleatoria únicamente en los números impares
 const game5 = async (players) => {
-  const game_name = "odd-players";
+  const game_name = "Ruleta";
   let arr = [];
   for(let i = 1; i <= players; i++){
       if(i%2!==0) arr.push(i)

@@ -22,14 +22,14 @@ spec:
     spec:
       hostname: proyectof3-host-kafka
       containers:
-        - name: grpc-cliente-kafka
+        - name: grpc-client-kafka
           image: rocket1530/grpc_client_kafka
           env:
           - name: IP_SERVER
             value: "proyectof3-host-kafka"
           ports:
             - containerPort: 8080
-        - name: grpc-servidor-kafka
+        - name: grpc-server-kafka
           image: rocket1530/grpc_server_kafka
           env:
           - name: HOSTIP_KAFKA
@@ -42,11 +42,11 @@ spec:
           - name: HOSTIP_KAFKA
             value: "my-cluster-kafka-bootstrap.kafka"
           - name: HOSTIP_MONGO
-            value: 
+            value: "35.188.141.12"
           - name: HOSTIP_REDIS
-            value: 
+            value: "35.223.222.90"
           - name: HOSTIP_TIDB
-            value: 
+            value: "34.122.2.118"
 ---
 apiVersion: v1
 kind: Service
