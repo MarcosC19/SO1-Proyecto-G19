@@ -13,6 +13,7 @@ helm install nginx-ingress ingress-nginx/ingress-nginx -n nginx-ingress
 
 # INSTALACION LINKERD
 curl --proto '=https' --tlsv1.2 -sSfL https://run.linkerd.io/install | sh
+export PATH=$PATH:/home/stevengez/.linkerd2/bin
 linkerd version
 linkerd install | kubectl apply -f -
 
