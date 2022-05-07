@@ -13,10 +13,21 @@ services:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
   mongoexporter:
     image: percona/mongodb_exporter:0.31.2
-    command: --mongodb.uri=mongodb://admin-g19:so1-fase3@10.128.0.34:27017'
+    command: -mongodb.uri=mongodb://admin-g19:so1-fase3@10.128.0.34:27017'
     ports:
       - 9216:9216
 
 # Run Redis Exporter
 #docker run -d -p 9121:9121 -e REDIS_ADDR=10.128.0.35:6379 --name redis_exporter oliver006/redis_exporter
     
+
+# db.createUser(
+# {
+#   user: "mongodb_exporter",
+#   pwd: "so1-fase3",
+#   roles: [
+#       { role: "clusterMonitor", db: "admin" },
+#       { role: "read", db: "local" }
+#   ]
+# }
+# )
