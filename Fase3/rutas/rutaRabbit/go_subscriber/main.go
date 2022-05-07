@@ -21,20 +21,20 @@ import (
 )
 
 type Game struct {
-	GameId  int32  `json:"Game_id"`
-	Players int32  `json:"Players"`
-	Name    string `json:"Game_name"`
-	Winner  int32  `json:"Winner"`
-	Queue   string `json:"Queue"`
+	GameId  int32  `json:"game_id"`
+	Players int32  `json:"players"`
+	Name    string `json:"game_name"`
+	Winner  int32  `json:"winner"`
+	Queue   string `json:"queue"`
 }
 
 type GameMongo struct {
 	//ID      primitive.ObjectID `bson:"_id"`
-	GameId  int32  `bson:"Game_id"`
-	Players int32  `bson:"Players"`
-	Name    string `bson:"Game_name"`
-	Winner  int32  `bson:"Winner"`
-	Queue   string `bson:"Queue"`
+	GameId  int32  `bson:"game_id"`
+	Players int32  `bson:"players"`
+	Name    string `bson:"game_name"`
+	Winner  int32  `bson:"winner"`
+	Queue   string `bson:"queue"`
 }
 
 func loadEnv() {
