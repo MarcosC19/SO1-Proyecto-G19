@@ -11,7 +11,7 @@ helm repo update
 
 helm install nginx-ingress ingress-nginx/ingress-nginx -n nginx-ingress
 
-# INSTALACION CHASO MESH
+# INSTALACION CHAOS MESH
 curl -sSL https://mirrors.chaos-mesh.org/v2.1.5/install.sh | bash
 
 	## Verification:
