@@ -32,7 +32,7 @@ linkerd viz install | kubectl apply -f -
 linkerd viz dashboard
 
 # INYECCION LINKERD INGRESS CONTROLLER FRONTEND
-kubectl get -n nginx-ingress deploy nginx-ingress-ingress-nginx-controller -o yaml \
+kubectl get -n nginx-ingress deploy nginx-ingress-front-ingress-nginx-controller -o yaml \
 | linkerd inject - \
 | kubectl apply -f -
 

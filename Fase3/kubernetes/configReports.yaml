@@ -25,9 +25,9 @@ spec:
         name: frontend-f3
         env:
         - name: REACT_APP_IPAPI # MODIFICAR
-          value: "localhost"
+          value: "34.71.196.67"
         - name: REACT_APP_RUST_API_HOST # MODIFICAR
-          value: "localhost"
+          value: "34.132.91.207"
         resources: {}
 status: {}
 --- # CLUSTER IP FRONTEND
@@ -46,28 +46,7 @@ spec:
     targetPort: 3000
   selector:
     app: frontend
-  type: ClusterIP
+  type: LoadBalancer
 status:
   loadBalancer: {}
---- # INGRESS CONTROLLER
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: minimal-ingress
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
-    nginx.ingress.kubernetes.io/service-upstream: "true"
-  namespace: squidgame
-spec:
-  ingressClassName: nginx
-  rules:
-  - host: "35.193.161.161.nip.io" # MODIFICAR
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: frontend
-            port:
-              number: 3000
+---

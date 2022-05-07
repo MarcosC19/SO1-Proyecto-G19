@@ -10,7 +10,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: "35.184.59.236.nip.io" # MODIFICAR
+  - host: "34.132.235.79.nip.io" # MODIFICAR
     http:
       paths:
       #- path: /

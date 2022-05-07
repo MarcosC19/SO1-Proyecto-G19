@@ -4,9 +4,9 @@ metadata:
   name: faulty-traffic
   namespace: squidgame
 spec:
-  service: faulty-traffic
+  service: svc-ruta-rabbit
   backends:
   - service: svc-ruta-rabbit
-    weight: 800m
+    weight: 500m
   - service: svc-ruta-kafka
-    weight: 200m
+    weight: 500m
