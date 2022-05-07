@@ -11,6 +11,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"sync/atomic"
 	"time"
 )
 
@@ -39,15 +40,15 @@ var (
 	HOST = "localhost"
 
 	GAMES       [5]int32
-	GAMESLEN    = 1
-	PLAYERS     = DEFAULT_PLAYERS
-	CONCURRENCE = DEFAULT_CONCURRENCE
-	RUNS        = DEFAULT_RUNS
-	TIMEOUT     = DEFAULT_TIMEOUT
+	GAMESLEN           = 1
+	PLAYERS            = DEFAULT_PLAYERS
+	CONCURRENCE        = DEFAULT_CONCURRENCE
+	RUNS        uint64 = DEFAULT_RUNS
+	TIMEOUT            = DEFAULT_TIMEOUT
 
-	SUCCESS = 0
-	FAILED  = 0
-	RUNNING = false
+	SUCCESS uint64 = 0
+	FAILED  uint64 = 0
+	RUNNING        = false
 )
 
 func main() {
@@ -178,9 +179,11 @@ func sendRequest(ctx context.Context, c1 chan string) {
 		}
 
 		if err != nil {
-			FAILED++
+			atomic.AddUint64(&FAILED, 1)
+			//FAILED++
 		} else {
-			SUCCESS++
+			atomic.AddUint64(&SUCCESS, 1)
+			//SUCCESS++
 		}
 
 		if RUNNING {
@@ -217,7 +220,7 @@ func parseCommand(param string, value string) {
 		if err != nil {
 			fmt.Printf("Invalid rungames amount: [%s], default value will be used\n", value)
 		} else {
-			RUNS = v
+			RUNS = uint64(v)
 		}
 		break
 	case PARAM_PLAYERS:
