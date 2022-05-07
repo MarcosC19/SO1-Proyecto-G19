@@ -190,7 +190,7 @@ io.of('/resultTiDB').on('connection', async (socket) => {
             `SELECT 
                 id, game_id, game_name, winner
             FROM
-                fase2
+                reportes
             ORDER BY id DESC
             LIMIT 10;`,
             (err, result) => {
@@ -209,7 +209,7 @@ io.of('/resultTiDB').on('connection', async (socket) => {
             `SELECT 
                 winner, COUNT(winner) AS 'victorias'
             FROM
-                fase2
+                reportes
             GROUP BY winner
             ORDER BY Victorias DESC
             LIMIT 10;`,
@@ -229,13 +229,13 @@ io.of('/resultTiDB').on('connection', async (socket) => {
             `SELECT 
                 id, game_name, winner, 'Ganador' AS 'resultado'
             FROM
-                fase2
+                reportes
             WHERE
                 winner = ${player} 
             UNION SELECT 
                 id, game_name, ${player}, 'Perdedor' AS 'resultado'
             FROM
-                fase2
+                reportes
             WHERE
                 winner != ${player}
             ORDER BY id ASC;`,
@@ -254,7 +254,7 @@ io.of('/resultTiDB').on('connection', async (socket) => {
             `SELECT DISTINCT
                 winner
             FROM
-                fase2
+                reportes
             ORDER BY winner ASC;`,
             (err, result) => {
                 if (err) {

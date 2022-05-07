@@ -33,7 +33,7 @@ spec:
         name: games-result-f3
         env:
         - name: TIDB_IP
-          value: "34.67.24.222"
+          value: "34.122.2.118"
         - name: TIDB_USER
           value: "grupo19"
         - name: TIDB_PASS
@@ -41,7 +41,7 @@ spec:
         - name: TIDB_DB
           value: "sopes1fase3"
         - name: REDIS_IP
-          value: "35.232.34.17"
+          value: "35.223.222.90"
         - name: PORT
           value: "80"
         resources: {}
@@ -93,7 +93,7 @@ spec:
         name: games-logs-f3
         env:
         - name: MONGO_HOST # MODIFICAR SIEMPRE
-          value: "34.72.203.177"
+          value: "35.188.141.12"
         - name: MONGO_USER
           value: "admin-g19"
         - name: MONGO_PASS
