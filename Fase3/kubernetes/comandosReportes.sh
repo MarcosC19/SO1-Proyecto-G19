@@ -23,7 +23,7 @@ curl -sSL https://mirrors.chaos-mesh.org/v2.1.5/install.sh | bash
 
 # INSTALACION LINKERD
 curl --proto '=https' --tlsv1.2 -sSfL https://run.linkerd.io/install | sh
-export PATH=$PATH:/home/stevengez/.linkerd2/bin
+export PATH=$PATH:/home/[USERNAME]/.linkerd2/bin
 linkerd version
 linkerd install | kubectl apply -f -
 
@@ -35,6 +35,10 @@ linkerd viz dashboard
 kubectl get -n nginx-ingress deploy nginx-ingress-ingress-nginx-controller -o yaml \
 | linkerd inject - \
 | kubectl apply -f -
+
+kubectl get -n squidgame deploy -o yaml \
+  | linkerd inject - \
+  | kubectl apply -f -
 
 # INSTALACION DE KAFKA
 kubectl create namespace kafka
